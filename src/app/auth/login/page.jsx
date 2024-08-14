@@ -23,16 +23,26 @@ function LoginPage() {
     });
 
     if (res.error) {
-      toast(res.error);
+      toast(res?.error);
     } else {
       router.push("/dashboard");
-      router.refresh()
+      router.refresh();
     }
   });
 
+  const handleGoogleSignIn = async () => {
+    const res = await signIn("google", { redirect: false });    
+    if (res?.error) {
+      toast(res?.error);
+    } else {
+      router.push("/dashboard");
+      router.refresh();
+    }
+  };
+
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
-      <form action="" onSubmit={onSubmit} className="w-1/3">
+      <form action="" onSubmit={onSubmit} className="w-1/4">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Login</h1>
         <label htmlFor="email" className="text-slate-500 mb-2 block text-sm">
           Email:
@@ -70,8 +80,16 @@ function LoginPage() {
             {errors.password.message}
           </span>
         )}
+
         <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2">
           Sign In
+        </button>
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          className="w-full rounded-lg text-white bg-red-500 p-3 mt-4"
+        >
+          Sign In with Google
         </button>
       </form>
 

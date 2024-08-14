@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import db from "@/libs/db";
 
@@ -21,29 +22,44 @@ export const authOptions = {
             email: credentials.email,
           },
         });
-
-        // if (!userFound) return null
         if (!userFound) throw new Error("Email not found");
-
         const matchPasword = await bcrypt.compare(
           credentials.password,
           userFound.password
         );
-        // if (!matchPasword) return null
         if (!matchPasword) throw new Error("Wrong password");
-
         return {
           id: userFound.id,
           name: userFound.username,
           email: userFound.email,
         };
       },
+      secret: process.env.NEXTAUTH_SECRET,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   pages: {
     signIn: "/auth/login",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      if (account.provider === "google") {            
+        const userFound = await db.user.findUnique({
+          where: {
+            email: user.email,
+          },
+        });        
+        if (!userFound) {
+          return "/auth/register"
+        }
+      }
+      return true;
+    },
+  },
+  
 };
 
 const handler = NextAuth(authOptions);
