@@ -28,8 +28,8 @@ model daily_expenses {
   notes          String?
 }
 
-model categories {
-  id         Int     @id @default(autoincrement())
+model categories_expenses {
+  id         Int     @id(map: "categories_pkey") @default(autoincrement())
   name       String  @db.VarChar(50)
   max_amount Decimal @db.Decimal(10, 2)
 }
