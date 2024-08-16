@@ -1,6 +1,5 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,31 +10,29 @@ function ChargeExpenses() {
     formState: { errors },
   } = useForm();
 
-  const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
-    if (data.password !== data.confirmPassword) {
-      return toast("Password do not match");
-    }
 
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      body: JSON.stringify({
-        username: data.username,
-        email: data.email,
-        password: data.password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    console.log(data);
+    
+    // const res = await fetch("/api/auth/register", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     username: data.username,
+    //     email: data.email,
+    //     password: data.password,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
 
-    if (res.ok) {
-      router.push("/auth/login");
-    }
+    // if (res.ok) {
+    //   router.push("/auth/login");
+    // }
 
-    const errorData = await res.json();
-    toast(errorData.message);
+    // const errorData = await res.json();
+    // toast(errorData.message);
   });
 
   return (
@@ -151,7 +148,7 @@ function ChargeExpenses() {
             placeholder="Description"
             {...register("description", {
               required: {
-                value: true,
+                value: false,
                 message: "Description is required",
               },
             })}
@@ -220,7 +217,7 @@ function ChargeExpenses() {
             placeholder="Notes"
             {...register("notes", {
               required: {
-                value: true,
+                value: false,
                 message: "Notes is required",
               },
             })}

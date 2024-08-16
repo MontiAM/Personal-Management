@@ -23,13 +23,13 @@ const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
           },
           {
             key: "2",
-            icon: <DesktopOutlined />,
+            icon: <FileOutlined />,
             label: "Daily expenses",
             onClick: () => setViewKey(2),
           },
           {
             key: "3",
-            icon: <FileOutlined />,
+            icon: <DesktopOutlined />,
             label: "Configuration",
             onClick: () => setViewKey(3),
           },

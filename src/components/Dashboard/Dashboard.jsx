@@ -21,13 +21,10 @@ const Dashboard = () => {
       }
     };
 
-    // Ejecutar la función al montar el componente
     handleResize();
 
-    // Agregar el event listener
     window.addEventListener("resize", handleResize);
 
-    // Cleanup el event listener
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
