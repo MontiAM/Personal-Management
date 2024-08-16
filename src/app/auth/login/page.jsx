@@ -42,7 +42,7 @@ function LoginPage() {
 
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
-      <form action="" onSubmit={onSubmit} className="w-1/4">
+      <form action="" onSubmit={onSubmit} className="w-1/2 md:w-1/4">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Login</h1>
         <label htmlFor="email" className="text-slate-500 mb-2 block text-sm">
           Email:

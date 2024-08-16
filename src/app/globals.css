@@ -6,3 +6,13 @@ body {
     @apply bg-neutral-950;
 }
 
+
+/* Sider  */
+.ant-layout-sider-dark, .ant-layout-sider-children, .ant-layout-sider, .ant-layout .ant-layout-sider-trigger, .ant-menu, .ant-menu-item {
+    @apply bg-gray-950;
+}
+
+/* Dashboard  */
+.ant-layout{
+    @apply bg-neutral-950;
+}

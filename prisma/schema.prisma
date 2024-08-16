@@ -16,3 +16,20 @@ model User {
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @db.Timestamptz(6)
 }
+
+model daily_expenses {
+  expense_id     Int      @id @default(autoincrement())
+  date           DateTime @db.Date
+  category       String   @db.VarChar(50)
+  description    String?
+  amount         Decimal  @db.Decimal(10, 2)
+  payment_method String?  @db.VarChar(50)
+  location       String?  @db.VarChar(100)
+  notes          String?
+}
+
+model categories {
+  id         Int     @id @default(autoincrement())
+  name       String  @db.VarChar(50)
+  max_amount Decimal @db.Decimal(10, 2)
+}

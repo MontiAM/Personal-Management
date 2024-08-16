@@ -8,15 +8,12 @@ const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
     <Sider
       collapsible
       collapsed={collapsed}
-      onCollapse={setCollapsed}
-      style={{ backgroundColor: '#111827' }} // Tailwind's bg-gray-950
-      className="pt-4"
-    >
+      onCollapse={setCollapsed}    >
       <Menu
         theme="dark"
         defaultSelectedKeys={["1"]}
         mode="inline"
-        className="gap-4"
+        className="cursor-pointer"
         items={[
           {
             key: "1",
