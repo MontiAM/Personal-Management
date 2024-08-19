@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 import { Layout } from "antd";
 import DashboardSider from "./Sider";
-import ChargeExpenses from "./ChargeExpenses";
-import DailyExpenses from "./DailyExpenses";
-import Configuration from "./Configuration";
+import ChargeExpenses from "./ChargeExpenses/ChargeExpenses";
+import DailyExpenses from "./DailyExpenses/DailyExpenses";
+import Configuration from "./Configuration/Configuration";
 
 const { Content } = Layout;
 
