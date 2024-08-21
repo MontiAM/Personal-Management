@@ -1,9 +1,9 @@
 "use client";
 
 import { Inter } from "next/font/google";
-import NavBar from "@/components/NavBar/NavBar";
 import { SessionProvider, useSession } from "next-auth/react";
 import { Spin } from "antd";
+import NavBar from "@/components/NavBar/NavBar";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });

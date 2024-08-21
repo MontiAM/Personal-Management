@@ -11,7 +11,7 @@ const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
       onCollapse={setCollapsed}    >
       <Menu
         theme="dark"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["2"]}
         mode="inline"
         className="cursor-pointer"
         items={[

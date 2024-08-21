@@ -10,7 +10,7 @@ const { Content } = Layout;
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [viewKey, setViewKey] = useState(1);
+  const [viewKey, setViewKey] = useState(2);
 
   useEffect(() => {
     const handleResize = () => {

@@ -26,6 +26,7 @@ model daily_expenses {
   payment_method String?  @db.VarChar(50)
   location       String?  @db.VarChar(100)
   notes          String?
+  email_user     String?  @db.VarChar(255)
 }
 
 model categories_expenses {
