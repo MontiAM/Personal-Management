@@ -29,14 +29,19 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout style={{ height: "calc(100vh - 3.25rem)"}}>
+    <Layout className="relative">  
       <DashboardSider
         collapsed={collapsed}
         setCollapsed={setCollapsed}
         setViewKey={setViewKey}
       />
-      <Layout className="site-layout">
-        <Content style={{ margin: "16px" }}>
+      <Layout
+      
+        className={`site-layout transition-all duration-300 ml-${
+          collapsed ? "20" : "80"
+        } h-full`}
+      >
+        <Content className="p-4 overflow-auto">
           {viewKey === 1 && <ChargeExpenses />}
           {viewKey === 2 && <DailyExpenses />}
           {viewKey === 3 && <Configuration />}
