@@ -9,7 +9,7 @@ export const getColumns = (data) => {
   
   export const transformColumns = (data) => {
     const columns = getColumns(data);
-    const visibleColumns = columns.filter(column => column !== 'description' && column !== 'notes');
+    const visibleColumns = columns.filter(column => column !== 'description' && column !== 'notes' && column !== 'key');
   
     return visibleColumns.map((column) => ({
       title: column.charAt(0).toUpperCase() + column.slice(1),

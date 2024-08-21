@@ -29,7 +29,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout style={{ minHeight: "100vh"}}>
+    <Layout style={{ height: "calc(100vh - 3.25rem)"}}>
       <DashboardSider
         collapsed={collapsed}
         setCollapsed={setCollapsed}

@@ -1,14 +1,14 @@
-import TableExpenses from "./TableExpenses";
+import TableSection from "./TableSection";
 import { mockData } from "@/mockData/mockData";
 
 const DailyExpenses = () => {
   return (
     <div className="flex flex-col justify-center items-center">
-      <h1 className="text-slate-200 font-bold text-4xl mb-4 col-span-full">
-        Daily Expenses
-      </h1>
-      <div className="w-full">
-        <TableExpenses dataSource={mockData}/>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <TableSection dataSource={mockData} />
+        <div className="flex flex-col justify-center items-center">
+          lorem5000
+        </div>
       </div>
     </div>
   );
