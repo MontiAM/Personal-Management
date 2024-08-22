@@ -39,7 +39,7 @@ const data = [
   },
 ];
 
-const Chart3 = ( {styleContent} ) =>  {
+const Chart3 = ( {styleContent = {}} ) =>  {
 
     return (
       <div style={styleContent}>

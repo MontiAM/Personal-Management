@@ -45,7 +45,7 @@ const data = [
   },
 ];
 
-const Chart1 = ( {styleContent} ) => (
+const Chart1 = ( {styleContent = {}} ) => (
   <div style={styleContent}>
     <ResponsiveContainer width="100%" height="100%">
       <LineChart

@@ -3,8 +3,15 @@ import { Table } from 'antd';
 import { transformColumns } from "@/helpers/helpers"
 
 
+const onEdit = (record) => {
+  console.log("Editando...", record);
+}
+const onDelete = (record) => {
+  console.log("Eliminando...", record);
+}
+
 const TableExpenses = ({ dataSource }) => {
-  const columns = transformColumns(dataSource)
+  const columns = transformColumns(dataSource, onEdit, onDelete)
   const [pageSize, setPageSize] = useState(10); 
 
   

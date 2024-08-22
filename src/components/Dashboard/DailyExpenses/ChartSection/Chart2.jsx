@@ -45,7 +45,7 @@ const data = [
   },
 ];
 
-const Chart2 = ( {styleContent} ) => {
+const Chart2 = ( {styleContent = {} } ) => {
 
     return (
       <div style={styleContent}> 
