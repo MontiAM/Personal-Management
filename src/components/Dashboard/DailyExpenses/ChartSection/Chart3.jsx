@@ -1,4 +1,3 @@
-import React, { PureComponent } from 'react';
 import { Radar, RadarChart, PolarGrid, Legend, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 
 const data = [
@@ -40,9 +39,7 @@ const data = [
   },
 ];
 
-export default class Chart3 extends PureComponent {
-  render() {
-    const { styleContent } = this.props; 
+const Chart3 = ( {styleContent} ) =>  {
 
     return (
       <div style={styleContent}>
@@ -59,6 +56,6 @@ export default class Chart3 extends PureComponent {
       </div>
       
     );
-  }
 }
 
+export default Chart3;

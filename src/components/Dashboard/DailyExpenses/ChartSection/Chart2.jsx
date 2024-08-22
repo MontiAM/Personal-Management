@@ -1,4 +1,3 @@
-import React, { PureComponent } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
@@ -46,10 +45,7 @@ const data = [
   },
 ];
 
-export default class Chart2 extends PureComponent {
-
-  render() {
-    const { styleContent } = this.props; 
+const Chart2 = ( {styleContent} ) => {
 
     return (
       <div style={styleContent}> 
@@ -76,5 +72,7 @@ export default class Chart2 extends PureComponent {
       </ResponsiveContainer>
       </div>
     );
-  }
+  
 }
+
+export default Chart2;
