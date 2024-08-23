@@ -8,25 +8,29 @@ datasource db {
   relationMode = "prisma"
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+model daily_expenses {
+  expense_id             Int      @id @default(autoincrement())
+  expense_date           DateTime @db.Date
+  expense_category       String   @db.VarChar(50)
+  expense_description    String?
+  expense_amount         Decimal  @db.Decimal(10, 2)
+  expense_payment_method String?  @db.VarChar(50)
+  expense_location       String?  @db.VarChar(100)
+  expense_notes          String?
+  user_id                Int
+  created_at             DateTime @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime @default(now()) @db.Timestamptz(6)
+  user                   User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
-model daily_expenses {
-  expense_id     Int      @id @default(autoincrement())
-  date           DateTime @db.Date
-  category       String   @db.VarChar(50)
-  description    String?
-  amount         Decimal  @db.Decimal(10, 2)
-  payment_method String?  @db.VarChar(50)
-  location       String?  @db.VarChar(100)
-  notes          String?
-  email_user     String?  @db.VarChar(255)
+model User {
+  id             Int              @id @default(autoincrement())
+  email          String           @unique
+  username       String           @unique
+  password       String
+  createdAt      DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime         @default(now()) @db.Timestamptz(6)
+  daily_expenses daily_expenses[]
 }
 
 model categories_expenses {
