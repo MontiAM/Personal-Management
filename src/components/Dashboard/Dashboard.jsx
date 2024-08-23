@@ -4,6 +4,7 @@ import { Layout } from "antd";
 import DashboardSider from "./Sider";
 import ChargeExpenses from "./ChargeExpenses/ChargeExpenses";
 import DailyExpenses from "./DailyExpenses/DailyExpenses";
+import Statistics from "./Statistics/Statistics"
 import Configuration from "./Configuration/Configuration";
 
 const { Content } = Layout;
@@ -44,7 +45,8 @@ const Dashboard = () => {
         <Content className="p-4 overflow-auto">
           {viewKey === 1 && <ChargeExpenses />}
           {viewKey === 2 && <DailyExpenses />}
-          {viewKey === 3 && <Configuration />}
+          {viewKey === 3 && <Statistics />}
+          {viewKey === 4 && <Configuration />}
         </Content>
       </Layout>
     </Layout>

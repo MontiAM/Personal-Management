@@ -3,6 +3,7 @@ import {
   PieChartOutlined,
   DesktopOutlined,
   FileOutlined,
+  AreaChartOutlined
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -22,12 +23,12 @@ const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
         mode="inline"
         className="cursor-pointer relative"
         items={[
-          {
-            key: "1",
-            icon: <PieChartOutlined />,
-            label: "Charge expenses",
-            onClick: () => setViewKey(1),
-          },
+          // {
+          //   key: "1",
+          //   icon: <PieChartOutlined />,
+          //   label: "Charge expenses",
+          //   onClick: () => setViewKey(1),
+          // },
           {
             key: "2",
             icon: <FileOutlined />,
@@ -36,9 +37,15 @@ const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
           },
           {
             key: "3",
+            icon: <AreaChartOutlined />,
+            label: "Statistics",
+            onClick: () => setViewKey(3),
+          },
+          {
+            key: "4",
             icon: <DesktopOutlined />,
             label: "Configuration",
-            onClick: () => setViewKey(3),
+            onClick: () => setViewKey(4),
           },
         ]}
       />

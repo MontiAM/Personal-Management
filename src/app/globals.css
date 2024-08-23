@@ -16,3 +16,8 @@ body {
 .ant-layout{
     @apply bg-neutral-950;
 }
+
+/* Modal */
+.ant-modal .ant-modal-content {
+    @apply bg-neutral-950;
+}
