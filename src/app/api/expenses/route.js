@@ -24,9 +24,7 @@ export async function POST(request) {
         expense_payment_method: data.expense_payment_method,
         expense_location: data.expense_location,
         expense_notes: data.expense_notes,
-        user_id: user.id,
-        // created_at: new Date(), // Current date and time
-        // updated_at: new Date(), // Current date and time
+        user_id: user.id
       },
     });
 
@@ -39,10 +37,51 @@ export async function POST(request) {
   }
 }
 
-export async function GET(req) {
-  console.log("METHOD:", req.method);
-  console.log("URL:", req.url);
-  return NextResponse.json({ message: "GET request handled" }, { status: 200 });
+export async function GET(request) {  
+  // http://localhost:3000/api/expenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31
+  try {
+    const { searchParams } = new URL(request.url);
+    const fecha_desde = searchParams.get("fecha_desde");
+    const fecha_hasta = searchParams.get("fecha_hasta");
+
+    let expenses;
+
+    if (fecha_desde && fecha_hasta) {
+      const startDate = new Date(fecha_desde);
+      const endDate = new Date(fecha_hasta);
+
+      if (isNaN(startDate) || isNaN(endDate)) {
+        return NextResponse.json(
+          { message: "Invalid date format. Use YYYY-MM-DD." },
+          { status: 400 }
+        );
+      }
+
+      expenses = await db.daily_expenses.findMany({
+        where: {
+          expense_date: {
+            gte: startDate, // Greater than or equal to startDate
+            lte: endDate, // Less than or equal to endDate (inclusive)
+          },
+        },
+        include: {
+          user: true,
+        },
+      });
+    } else {
+      expenses = await db.daily_expenses.findMany({
+        include: {
+          user: true,
+        },
+      });
+    }
+
+    return NextResponse.json(expenses, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching expenses:", error);
+
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
 }
 
 export async function PUT(req) {
