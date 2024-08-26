@@ -1,25 +1,46 @@
 import { useForm } from "react-hook-form";
-import "react-toastify/dist/ReactToastify.css";
 
-function ModalChargeExpenses() {
+function ModalChargeExpenses({ onClose }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+
+    const res = await fetch("/api/expenses", {
+      method: "POST",
+      body: JSON.stringify({
+        expense_date: data.date,
+        expense_category: data.category,
+        expense_description: data.description,
+        expense_amount: data.amount,
+        expense_payment_method: data.payment_method,
+        expense_location: null,
+        expense_notes: data.notes,
+        email_user: data.username,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log(res);
+      
+      reset(); 
+      onClose();
+    } else {
+      const errorData = await res.json();
+      console.error("Error:", errorData.message);
+    }
   });
 
   return (
     <>
-      <form
-        action=""
-        onSubmit={onSubmit}
-        
-      >
+      <form action="" onSubmit={onSubmit}>
         <h1 className="text-slate-200 font-bold text-4xl mb-4 col-span-full">
           Charge Expenses
         </h1>
@@ -205,7 +226,6 @@ function ModalChargeExpenses() {
         <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2 col-span-full">
           Add charge
         </button>
-
       </form>
     </>
   );

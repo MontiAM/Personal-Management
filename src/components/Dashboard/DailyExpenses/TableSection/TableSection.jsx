@@ -38,7 +38,7 @@ function TableSection() {
         onCancel={handleCancel}
         footer={null}
       >
-        <ModalChargeExpenses />
+        <ModalChargeExpenses onClose={handleCancel} />
       </Modal>
     </>
   );
