@@ -1,7 +1,20 @@
 import { NextResponse } from "next/server";
+import { authOptions  } from "../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 import db from "@/libs/db";
 
 export async function POST(request) {
+
+  // const session = await getServerSession(authOptions);
+
+  // if (!session) {
+  //   return NextResponse.json({
+  //     message: "Unauthorized"
+  //   }, {
+  //     status: 401
+  //   })
+  // }
+
   try {
     const data = await request.json();
 
@@ -39,6 +52,17 @@ export async function POST(request) {
 
 export async function GET(request) {  
   // http://localhost:3000/api/expenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31
+
+  // const session = await getServerSession(authOptions);
+
+  // if (!session) {
+  //   return NextResponse.json({
+  //     message: "Unauthorized"
+  //   }, {
+  //     status: 401
+  //   })
+  // }
+
   try {
     const { searchParams } = new URL(request.url);
     const fecha_desde = searchParams.get("fecha_desde");

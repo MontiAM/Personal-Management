@@ -1,7 +1,20 @@
 import { NextResponse } from "next/server";
+import { authOptions  } from "../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 import db from "@/libs/db";
 
 export async function GET(req) {
+  
+  // const session = await getServerSession(authOptions);
+
+  // if (!session) {
+  //   return NextResponse.json({
+  //     message: "Unauthorized"
+  //   }, {
+  //     status: 401
+  //   })
+  // }
+
   try {
     const url = new URL(req.url);
     const id = url.pathname.split("/").pop();
@@ -42,6 +55,18 @@ export async function GET(req) {
 }
 
 export async function PUT(req) {
+
+  
+  // const session = await getServerSession(authOptions);
+
+  // if (!session) {
+  //   return NextResponse.json({
+  //     message: "Unauthorized"
+  //   }, {
+  //     status: 401
+  //   })
+  // }
+
   try {
     const url = new URL(req.url);
     const id = url.pathname.split("/").pop();
@@ -92,6 +117,18 @@ export async function PUT(req) {
 }
 
 export async function DELETE(req) {
+
+  
+  // const session = await getServerSession(authOptions);
+
+  // if (!session) {
+  //   return NextResponse.json({
+  //     message: "Unauthorized"
+  //   }, {
+  //     status: 401
+  //   })
+  // }
+  
   try {
     const url = new URL(req.url);
     const id = url.pathname.split("/").pop();
