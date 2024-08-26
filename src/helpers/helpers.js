@@ -2,7 +2,8 @@ import React from 'react';
 
 export const getColumns = (data) => {
   if (!Array.isArray(data) || data.length === 0) {
-    throw new Error("Invalid data input");
+    // throw new Error("Invalid data input");
+    return [];
   }
 
   const columns = Object.keys(data[0]);
