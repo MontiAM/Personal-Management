@@ -5,7 +5,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import ModalChargeExpenses from "../../ModalChargeExpenses";
 
 const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
-  const [pageSize, setPageSize] = useState(10);
+  // const [pageSize, setPageSize] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
 
@@ -43,8 +43,8 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
   return (
     <>
       <Table
-      className="custome-table"
         columns={columns}
+        dataSource={dataSource}
         expandable={{
           expandedRowRender: (record) => (
             <p
@@ -57,20 +57,9 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
           ),
         }}
         rowKey="expense_id"
-        dataSource={dataSource}
         scroll={{ x: "100vh", y: "calc(100vh - 20rem)" }}
         bordered
-        pagination={{
-          pageSize: pageSize,
-          showSizeChanger: true,
-          pageSizeOptions: ["10", "20", "50", "100"],
-          onShowSizeChange: (current, size) => {
-            setPageSize(size);
-          },
-          locale: {
-            items_per_page: "Page",
-          },
-        }}
+        pagination={false} 
       />
       <Modal
         closeIcon={<CloseOutlined className="text-white" />}
