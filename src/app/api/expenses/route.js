@@ -89,16 +89,30 @@ export async function GET(request) {
           },
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              email: true, // Select only the 'email' field
+            },
+          },
         },
       });
     } else {
       expenses = await db.daily_expenses.findMany({
         include: {
-          user: true,
+          user: {
+            select: {
+              email: true, // Select only the 'email' field
+            },
+          },
         },
       });
     }
+
+    expenses = expenses.map((expense) => ({
+      ...expense,
+      email: expense.user.email, 
+      expense_date: expense.expense_date.toISOString().split('T')[0], 
+    }));
 
     return NextResponse.json(expenses, { status: 200 });
   } catch (error) {

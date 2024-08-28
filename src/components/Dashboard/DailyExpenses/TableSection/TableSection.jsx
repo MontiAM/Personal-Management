@@ -19,24 +19,25 @@ function TableSection() {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
+  const refreshData = async () => {
     if (selectedDate) {
       const startOfMonth = selectedDate.startOf("month").format("YYYY-MM-DD");
       const endOfMonth = selectedDate.endOf("month").format("YYYY-MM-DD");
-      const fetchData = async () => {
-        try {
-          const res = await fetch(
-            `/api/expenses?fecha_desde=${startOfMonth}&fecha_hasta=${endOfMonth}`
-          );
-          const data = await res.json();
-          setDataSource(data);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-          setDataSource([]);
-        }
-      };
-      fetchData();
+      try {
+        const res = await fetch(
+          `/api/expenses?fecha_desde=${startOfMonth}&fecha_hasta=${endOfMonth}`
+        );
+        const data = await res.json();
+        setDataSource(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setDataSource([]);
+      }
     }
+  };
+
+  useEffect(() => {
+    refreshData();
   }, [selectedDate]);
 
   return (
@@ -52,7 +53,11 @@ function TableSection() {
           </button>
         </div>
         <div className="lg:relative h-max-[calc(100vh-12em)] overflow-auto">
-          <TableExpenses dataSource={dataSource} />
+          <TableExpenses
+            dataSource={dataSource}
+            setDataSource={setDataSource}
+            refreshData={refreshData}
+          />
         </div>
       </div>
 
@@ -62,7 +67,7 @@ function TableSection() {
         onCancel={handleCancel}
         footer={null}
       >
-        <ModalChargeExpenses onClose={handleCancel} />
+        <ModalChargeExpenses onClose={handleCancel} refreshData={refreshData}/>
       </Modal>
     </>
   );

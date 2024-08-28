@@ -1,17 +1,23 @@
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
-function ModalChargeExpenses({ onClose }) {
+function ModalChargeExpenses({ onClose, refreshData, expense   }) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
+    const method = expense ? "PUT" : "POST"; // Usar PUT si estamos editando
+    const url = expense
+      ? `/api/expenses/${expense.expense_id}` // URL para editar
+      : "/api/expenses"; // URL para crear nuevo gasto
 
-    const res = await fetch("/api/expenses", {
-      method: "POST",
+    const res = await fetch(url, {
+      method,
       body: JSON.stringify({
         expense_date: data.date,
         expense_category: data.category,
@@ -27,9 +33,8 @@ function ModalChargeExpenses({ onClose }) {
       },
     });
 
-    if (res.ok) {
-      console.log(res);
-      
+    if (res.ok) {      
+      refreshData();
       reset(); 
       onClose();
     } else {
@@ -38,11 +43,24 @@ function ModalChargeExpenses({ onClose }) {
     }
   });
 
+  useEffect(() => {
+    if (expense) {
+      setValue("username", expense.user.email);
+      setValue("date", expense.expense_date);
+      setValue("category", expense.expense_category);
+      setValue("description", expense.expense_description);
+      setValue("amount", expense.expense_amount);
+      setValue("payment_method", expense.expense_payment_method);
+      setValue("notes", expense.expense_notes);
+    }
+  }, [expense, setValue]);  
+
+
   return (
     <>
       <form action="" onSubmit={onSubmit}>
         <h1 className="text-slate-200 font-bold text-4xl mb-4 col-span-full">
-          Charge Expenses
+          {expense ? "Edit Expenses" : "Charge Expenses"}
         </h1>
 
         <div className="flex flex-col">
