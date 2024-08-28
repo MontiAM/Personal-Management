@@ -1,5 +1,3 @@
-import React from "react";
-
 export const getColumns = (data) => {
   if (!Array.isArray(data) || data.length === 0) {
     return [];
@@ -19,14 +17,25 @@ export const transformColumns = (data, onEdit, onDelete) => {
       column !== "expense_key" &&
       column !== "created_at" &&
       column !== "updated_at" &&
-      column !== "user"
+      column !== "user" &&
+      column !== "user_id" &&
+      column !== "expense_id" &&
+      column !== "expense_location"
   );
 
   const mappedColumns = visibleColumns.map((column) => ({
-    title: column.replace("expense_", "").charAt(0).toUpperCase() + column.replace("expense_", "").slice(1),
+    title:
+      column.replace("expense_", "").charAt(0).toUpperCase() +
+      column.replace("expense_", "").slice(1),
     dataIndex: column,
     sortDirections: ["ascend", "descend"],
     filterSearch: true,
+    width:
+      column === "expense_id" || column === "expense_amount"
+        ? 50
+        : column === "expense_date"
+        ? 70
+        : 150,
     sorter: (a, b) => {
       const parseDate = (dateStr) => {
         const [year, month, day] = dateStr.split("-").map(Number);
@@ -62,20 +71,32 @@ export const transformColumns = (data, onEdit, onDelete) => {
 
   const actionColumns = [
     {
-      title: "Edit",
+      title: "",
       key: "edit",
-      fixed: "right",
-      width: 70,
-      render: (_, record) => <a onClick={() => onEdit(record)}>Edit</a>,
+      width: 45,
+      render: (_, record) => (
+        <a
+          onClick={() => onEdit(record)}
+          style={{ color: "blue", cursor: "pointer" }} // Color personalizado para "Editar"
+        >
+          Edit
+        </a>
+      ),
     },
     {
-      title: "Delete",
+      title: "",
       key: "delete",
-      fixed: "right",
-      width: 75,
-      render: (_, record) => <a onClick={() => onDelete(record)}>Delete</a>,
+      width: 45,
+      render: (_, record) => (
+        <a
+          onClick={() => onDelete(record)}
+          style={{ color: "red", cursor: "pointer" }} // Color personalizado para "Eliminar"
+        >
+          Delete
+        </a>
+      ),
     },
   ];
 
-  return [...actionColumns, ...mappedColumns];
+  return [...mappedColumns, ...actionColumns];
 };

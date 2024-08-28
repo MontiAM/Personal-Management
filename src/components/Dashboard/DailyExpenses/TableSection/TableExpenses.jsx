@@ -43,6 +43,7 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
   return (
     <>
       <Table
+      className="custome-table"
         columns={columns}
         expandable={{
           expandedRowRender: (record) => (

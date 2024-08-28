@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react"; 
 
 function ModalChargeExpenses({ onClose, refreshData, expense   }) {
+  const { data: session } = useSession();
+  
   const {
     register,
     handleSubmit,
@@ -11,10 +14,10 @@ function ModalChargeExpenses({ onClose, refreshData, expense   }) {
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
-    const method = expense ? "PUT" : "POST"; // Usar PUT si estamos editando
+    const method = expense ? "PUT" : "POST";
     const url = expense
-      ? `/api/expenses/${expense.expense_id}` // URL para editar
-      : "/api/expenses"; // URL para crear nuevo gasto
+      ? `/api/expenses/${expense.expense_id}` 
+      : "/api/expenses";
 
     const res = await fetch(url, {
       method,
@@ -26,7 +29,7 @@ function ModalChargeExpenses({ onClose, refreshData, expense   }) {
         expense_payment_method: data.payment_method,
         expense_location: null,
         expense_notes: data.notes,
-        email_user: data.username,
+        email_user: session.user.email,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +66,7 @@ function ModalChargeExpenses({ onClose, refreshData, expense   }) {
           {expense ? "Edit Expenses" : "Charge Expenses"}
         </h1>
 
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <label
             htmlFor="username"
             className="text-slate-500 mb-2 block text-sm"
@@ -86,7 +89,7 @@ function ModalChargeExpenses({ onClose, refreshData, expense   }) {
               {errors.username.message}
             </span>
           )}
-        </div>
+        </div> */}
 
         <div className="flex flex-col">
           <label htmlFor="date" className="text-slate-500 mb-2 block text-sm">

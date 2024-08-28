@@ -3,21 +3,70 @@
 @tailwind utilities;
 
 body {
-    @apply bg-neutral-950;
+  @apply bg-neutral-950;
 }
 
-
 /* Sider  */
-.ant-layout-sider-dark, .ant-layout-sider-children, .ant-layout-sider, .ant-layout .ant-layout-sider-trigger, .ant-menu, .ant-menu-item {
-    @apply bg-gray-950;
+.ant-layout-sider-dark,
+.ant-layout-sider-children,
+.ant-layout-sider,
+.ant-layout .ant-layout-sider-trigger,
+.ant-menu,
+.ant-menu-item {
+  @apply bg-gray-950;
 }
 
 /* Dashboard  */
-.ant-layout{
-    @apply bg-neutral-950;
+.ant-layout {
+  @apply bg-neutral-950;
 }
 
 /* Modal */
 .ant-modal .ant-modal-content {
-    @apply bg-neutral-950;
+  @apply bg-neutral-950;
+}
+
+
+.ant-table-wrapper {
+    .ant-table {
+        table-layout: auto !important; /* Permite que las columnas se ajusten a su contenido */
+      }
+    
+      .ant-table-cell,
+      .ant-table-thead > tr > th,
+      .ant-table-tbody > tr > th,
+      .ant-table-tbody > tr > td,
+      tfoot > tr > th,
+      tfoot > tr > td {
+        position: relative;
+        padding: 10px;
+        overflow-wrap: break-word;
+      }
+
+
+  @media (max-width: 1024px) {
+    .ant-table-row {
+      font-size: 14px;
+      height: 35px;
+    }
+    .ant-table-column-title {
+      font-size: 14px;
+    }
+    .ant-table-cell {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ant-table-row {
+      font-size: 12px;
+      height: 32px;
+    }
+    .ant-table-column-title {
+      font-size: 12px;
+    }
+    .ant-table-cell {
+      font-size: 12px;
+    }
+  }
 }
