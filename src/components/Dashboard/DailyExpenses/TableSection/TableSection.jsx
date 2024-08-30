@@ -1,14 +1,18 @@
 import TableExpenses from "./TableExpenses";
 import DatePickerExpense from "./DatePicker";
-import ModalChargeExpenses from "../../ModalChargeExpenses";
-import { mockData } from "@/mockData/mockData";
+import SelectPicker from "./SelectPicker";
+import ModalCharge from "../../ModalCharge";
 import { CloseOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 function TableSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectFilter, setSelectFilter] = useState("expenses")
   const [dataSource, setDataSource] = useState([]);
 
   const showModal = () => {
@@ -19,13 +23,17 @@ function TableSection() {
     setIsModalOpen(false);
   };
 
+  const handleFilter = () => {
+    refreshData()
+  }
+
   const refreshData = async () => {
     if (selectedDate) {
       const startOfMonth = selectedDate.startOf("month").format("YYYY-MM-DD");
       const endOfMonth = selectedDate.endOf("month").format("YYYY-MM-DD");
       try {
         const res = await fetch(
-          `/api/expenses?fecha_desde=${startOfMonth}&fecha_hasta=${endOfMonth}`
+          `/api/${selectFilter}?fecha_desde=${startOfMonth}&fecha_hasta=${endOfMonth}`
         );
         const data = await res.json();
         setDataSource(data);
@@ -36,18 +44,22 @@ function TableSection() {
     }
   };
 
-  useEffect(() => {
-    refreshData();
-  }, [selectedDate]);
-
   return (
     <>
       <div className="mt-2 grid grid-cols-1 gap-2 h-full">
-        <div className="flex justify-between px-2">
-          <DatePickerExpense onDateChange={setSelectedDate} />
+        <div className="flex flex-col md:flex-row lg:flex-row justify-between md:items-center">
+          <div className="flex gap-2 justify-center items-center ">
+            <div className="flex gap-2 items-start">
+              <DatePickerExpense onDateChange={setSelectedDate} />
+              <SelectPicker onFilterChange={setSelectFilter}/>
+            </div>
+            <button onClick={handleFilter} className="text-white h-12 rounded-lg bg-blue-500 p-3 col-span-full">
+              Filter
+            </button>
+          </div>
           <button
             onClick={showModal}
-            className="text-white  rounded-lg bg-blue-500 p-3 col-span-full"
+            className="md:mx-0 lg:mx-0 mx-2 text-white h-12 rounded-lg bg-blue-500 p-3 col-span-full"
           >
             Add
           </button>
@@ -67,7 +79,7 @@ function TableSection() {
         onCancel={handleCancel}
         footer={null}
       >
-        <ModalChargeExpenses onClose={handleCancel} refreshData={refreshData}/>
+        <ModalCharge onClose={handleCancel} refreshData={refreshData} />
       </Modal>
     </>
   );

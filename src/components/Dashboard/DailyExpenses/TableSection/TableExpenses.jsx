@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Table, Modal } from "antd";
 import { transformColumns } from "@/helpers/helpers";
 import { CloseOutlined } from "@ant-design/icons";
-import ModalChargeExpenses from "../../ModalChargeExpenses";
+import ModalCharge from "../../ModalCharge";
 
 const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
   // const [pageSize, setPageSize] = useState(10);
@@ -67,7 +67,7 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <ModalChargeExpenses onClose={handleCancel} refreshData={refreshData} expense={selectedExpense}/>
+        <ModalCharge onClose={handleCancel} refreshData={refreshData} expense={selectedExpense}/>
       </Modal>
     </>
   );

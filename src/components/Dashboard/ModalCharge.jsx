@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react"; 
 
-function ModalChargeExpenses({ onClose, refreshData, expense   }) {
+function ModalCharge({ onClose, refreshData, expense   }) {
   const { data: session } = useSession();
   
   const {
@@ -252,4 +252,4 @@ function ModalChargeExpenses({ onClose, refreshData, expense   }) {
   );
 }
 
-export default ModalChargeExpenses;
+export default ModalCharge;
