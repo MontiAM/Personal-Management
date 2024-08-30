@@ -4,8 +4,7 @@ import { transformColumns } from "@/helpers/helpers";
 import { CloseOutlined } from "@ant-design/icons";
 import ModalCharge from "../../ModalCharge";
 
-const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
-  // const [pageSize, setPageSize] = useState(10);
+const TableExpenses = ({ dataSource, setDataSource, refreshData, filterType }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
 
@@ -31,7 +30,7 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };  
 
   const columns = transformColumns(dataSource, onEdit, onDelete);
 
@@ -39,6 +38,8 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
     setIsModalOpen(false);
     setSelectedExpense([]); 
   };
+
+  
 
   return (
     <>
@@ -52,11 +53,11 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData }) => {
                 margin: 0,
               }}
             >
-              {record.expense_description + " - " + record.expense_notes}
+               {record[`${filterType.slice(0, -1)}_description`] + " - " + record[`${filterType.slice(0, -1)}_notes`]}
             </p>
           ),
         }}
-        rowKey="expense_id"
+        rowKey={`${filterType.slice(0, -1)}_id`}
         scroll={{ x: "100vh", y: "calc(100vh - 20rem)" }}
         bordered
         pagination={false} 

@@ -12,30 +12,30 @@ export const transformColumns = (data, onEdit, onDelete) => {
 
   const visibleColumns = columns.filter(
     (column) =>
+      column !== "income_description" &&
+      column !== "income_notes" &&
+      column !== "income_key" &&
+      column !== "income_id" &&
+      column !== "income_location" &&
       column !== "expense_description" &&
       column !== "expense_notes" &&
       column !== "expense_key" &&
+      column !== "expense_id" &&
+      column !== "expense_location" &&
       column !== "created_at" &&
       column !== "updated_at" &&
       column !== "user" &&
-      column !== "user_id" &&
-      column !== "expense_id" &&
-      column !== "expense_location"
+      column !== "user_id"
   );
 
   const mappedColumns = visibleColumns.map((column) => ({
     title:
-      column.replace("expense_", "").charAt(0).toUpperCase() +
-      column.replace("expense_", "").slice(1),
+    column.slice(column.indexOf('_') + 1).replace(/^\w/, c => c.toUpperCase()),
     dataIndex: column,
     sortDirections: ["ascend", "descend"],
     filterSearch: true,
     width:
-      column === "expense_id" || column === "expense_amount"
-        ? 50
-        : column === "expense_date"
-        ? 70
-        : 150,
+    column.endsWith('_id') || column.endsWith('_amount') ? 50 : column.endsWith('_date') ? 70 : 150,
     sorter: (a, b) => {
       const parseDate = (dateStr) => {
         const [year, month, day] = dateStr.split("-").map(Number);
@@ -86,13 +86,13 @@ export const transformColumns = (data, onEdit, onDelete) => {
     {
       title: "",
       key: "delete",
-      width: 45,
+      width: 50,
       render: (_, record) => (
         <a
           onClick={() => onDelete(record)}
           style={{ color: "red", cursor: "pointer" }} // Color personalizado para "Eliminar"
         >
-          Delete
+          Del
         </a>
       ),
     },

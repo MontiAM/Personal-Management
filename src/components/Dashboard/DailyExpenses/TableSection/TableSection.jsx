@@ -69,6 +69,7 @@ function TableSection() {
             dataSource={dataSource}
             setDataSource={setDataSource}
             refreshData={refreshData}
+            filterType={selectFilter}
           />
         </div>
       </div>
