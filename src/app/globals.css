@@ -70,3 +70,13 @@ body {
     }
   }
 }
+
+/* Segment  */
+.ant-segmented {
+  background-color: #0f172a!important;
+  color: #6b7280;
+}
+
+.ant-segmented-item:hover:not(.ant-segmented-item-selected):not(.ant-segmented-item-disabled) {
+  color: #e2e8f0!important;
+}

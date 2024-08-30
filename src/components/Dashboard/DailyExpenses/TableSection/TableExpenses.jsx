@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Table, Modal } from "antd";
 import { transformColumns } from "@/helpers/helpers";
 import { CloseOutlined } from "@ant-design/icons";
-import ModalCharge from "../../ModalCharge";
+import ModalCharge from "../../Transactions/ModalCharge";
 
 const TableExpenses = ({ dataSource, setDataSource, refreshData, filterType }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

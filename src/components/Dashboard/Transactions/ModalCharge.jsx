@@ -1,22 +1,24 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { useSession } from "next-auth/react"; 
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import SelectTransaction from "./SelectTransaction";
 
-function ModalCharge({ onClose, refreshData, expense   }) {
+function ModalCharge({ onClose, refreshData, expense }) {
   const { data: session } = useSession();
-  
+  const [charge, setCharge] = useState("expenses");
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
     const method = expense ? "PUT" : "POST";
     const url = expense
-      ? `/api/expenses/${expense.expense_id}` 
+      ? `/api/expenses/${expense.expense_id}`
       : "/api/expenses";
 
     const res = await fetch(url, {
@@ -36,9 +38,9 @@ function ModalCharge({ onClose, refreshData, expense   }) {
       },
     });
 
-    if (res.ok) {      
+    if (res.ok) {
       refreshData();
-      reset(); 
+      reset();
       onClose();
     } else {
       const errorData = await res.json();
@@ -56,40 +58,15 @@ function ModalCharge({ onClose, refreshData, expense   }) {
       setValue("payment_method", expense.expense_payment_method);
       setValue("notes", expense.expense_notes);
     }
-  }, [expense, setValue]);  
-
+  }, [expense, setValue]);
 
   return (
     <>
       <form action="" onSubmit={onSubmit}>
         <h1 className="text-slate-200 font-bold text-4xl mb-4 col-span-full">
-          {expense ? "Edit Expenses" : "Charge Expenses"}
+          {expense ? "Edit" : "Charge"}
+          <SelectTransaction setCharge={setCharge} />
         </h1>
-
-        {/* <div className="flex flex-col">
-          <label
-            htmlFor="username"
-            className="text-slate-500 mb-2 block text-sm"
-          >
-            Username:
-          </label>
-          <input
-            type="text"
-            placeholder="YourUser123"
-            {...register("username", {
-              required: {
-                value: true,
-                message: "Username is required",
-              },
-            })}
-            className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
-          />
-          {errors.username && (
-            <span className="text-red-500 text-sm">
-              {errors.username.message}
-            </span>
-          )}
-        </div> */}
 
         <div className="flex flex-col">
           <label htmlFor="date" className="text-slate-500 mb-2 block text-sm">
@@ -128,23 +105,22 @@ function ModalCharge({ onClose, refreshData, expense   }) {
               })}
               className="p-3 rounded bg-slate-900 text-slate-300 w-full"
             >
-              <option value="">Select a category</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Health">Health</option>
-              <option value="Utilities">Utilities</option>
-              <option value="Other">Other</option>
+              {charge == "expenses" ? (
+                <>
+                  <option value="Food">Food</option>
+                  <option value="Transport">Transport</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Health">Health</option>
+                  <option value="Utilities">Utilities</option>
+                  <option value="Other">Other</option>
+                </>
+              ) : (
+                <>
+                  <option value="Work">Work</option>
+                  <option value="Others">Others</option>
+                </>
+              )}
             </select>
-            <button
-              type="button"
-              className="rounded-lg text-white bg-blue-500 p-3 focus:outline-none focus:ring-2"
-              onClick={() => {
-                console.log("Add new category");
-              }}
-            >
-              Add
-            </button>
           </div>
           {errors.category && (
             <span className="text-red-500 text-sm">
@@ -205,7 +181,7 @@ function ModalCharge({ onClose, refreshData, expense   }) {
             htmlFor="payment_method"
             className="text-slate-500 mb-2 block text-sm"
           >
-            Payment Method:
+            {charge === "expenses" ? "Payment Method:" : "Source"}
           </label>
           <input
             type="text"
@@ -244,6 +220,7 @@ function ModalCharge({ onClose, refreshData, expense   }) {
             <span className="text-red-500 text-sm">{errors.notes.message}</span>
           )}
         </div>
+
         <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2 col-span-full">
           Add charge
         </button>

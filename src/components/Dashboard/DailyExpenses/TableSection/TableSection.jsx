@@ -1,7 +1,7 @@
 import TableExpenses from "./TableExpenses";
 import DatePickerExpense from "./DatePicker";
 import SelectPicker from "./SelectPicker";
-import ModalCharge from "../../ModalCharge";
+import ModalCharge from "../../Transactions/ModalCharge";
 import { CloseOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import { useState } from "react";
