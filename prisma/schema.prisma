@@ -8,6 +8,17 @@ datasource db {
   relationMode = "prisma"
 }
 
+model User {
+  id             Int              @id @default(autoincrement())
+  email          String           @unique
+  username       String           @unique
+  password       String
+  createdAt      DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime         @default(now()) @db.Timestamptz(6)
+  daily_expenses daily_expenses[]
+  daily_incomes  daily_incomes[]
+}
+
 model daily_expenses {
   expense_id             Int      @id @default(autoincrement())
   expense_date           DateTime @db.Date
@@ -21,18 +32,21 @@ model daily_expenses {
   created_at             DateTime @default(now()) @db.Timestamptz(6)
   updated_at             DateTime @default(now()) @db.Timestamptz(6)
   user                   User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@index([user_id])
 }
 
-model User {
-  id             Int              @id @default(autoincrement())
-  email          String           @unique
-  username       String           @unique
-  password       String
-  createdAt      DateTime         @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime         @default(now()) @db.Timestamptz(6)
-  daily_expenses daily_expenses[]
+model daily_incomes {
+  income_id          Int      @id @default(autoincrement())
+  income_date        DateTime @db.Date
+  income_category    String   @db.VarChar(50)
+  income_description String?
+  income_amount      Decimal  @db.Decimal(10, 2)
+  income_source      String?  @db.VarChar(50)
+  income_location    String?  @db.VarChar(100)
+  income_notes       String?
+  user_id            Int
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime @default(now()) @db.Timestamptz(6)
+  user               User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model categories_expenses {
