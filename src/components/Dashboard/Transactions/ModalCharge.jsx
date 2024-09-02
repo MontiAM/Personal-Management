@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import SelectTransaction from "./SelectTransaction";
 
-function ModalCharge({ onClose, refreshData, expense }) {
+function ModalCharge({ onClose, refreshData, expense, filterType }) {
   const { data: session } = useSession();
   const [charge, setCharge] = useState("expenses");
 
@@ -16,47 +16,95 @@ function ModalCharge({ onClose, refreshData, expense }) {
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
-    const method = expense ? "PUT" : "POST";
-    const url = expense
-      ? `/api/expenses/${expense.expense_id}`
-      : "/api/expenses";
+    if (charge == "expenses") {
+      const method = expense ? "PUT" : "POST";
+      const url = expense
+        ? `/api/expenses/${expense.expense_id}`
+        : "/api/expenses";
 
-    const res = await fetch(url, {
-      method,
-      body: JSON.stringify({
-        expense_date: data.date,
-        expense_category: data.category,
-        expense_description: data.description,
-        expense_amount: data.amount,
-        expense_payment_method: data.payment_method,
-        expense_location: null,
-        expense_notes: data.notes,
-        email_user: session.user.email,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      const res = await fetch(url, {
+        method,
+        body: JSON.stringify({
+          expense_date: data.date,
+          expense_category: data.category,
+          expense_description: data.description,
+          expense_amount: data.amount,
+          expense_payment_method: data.payment_method,
+          expense_location: null,
+          expense_notes: data.notes,
+          email_user: session.user.email,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    if (res.ok) {
-      refreshData();
-      reset();
-      onClose();
-    } else {
-      const errorData = await res.json();
-      console.error("Error:", errorData.message);
+      if (res.ok) {
+        refreshData();
+        reset();
+        onClose();
+      } else {
+        const errorData = await res.json();
+        console.error("Error:", errorData.message);
+      }
+    }
+
+    if (charge == "incomes") {
+      const method = expense ? "PUT" : "POST";
+      const url = expense
+        ? `/api/incomes/${expense.income_id}`
+        : "/api/incomes";
+
+      const res = await fetch(url, {
+        method,
+        body: JSON.stringify({
+          income_date: data.date,
+          income_category: data.category,
+          income_description: data.description,
+          income_amount: data.amount,
+          income_source: data.payment_method,
+          income_location: null,
+          income_notes: data.notes,
+          email_user: session.user.email,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        refreshData();
+        reset();
+        onClose();
+      } else {
+        const errorData = await res.json();
+        console.error("Error:", errorData.message);
+      }
     }
   });
 
   useEffect(() => {
     if (expense) {
-      setValue("username", expense.user.email);
-      setValue("date", expense.expense_date);
-      setValue("category", expense.expense_category);
-      setValue("description", expense.expense_description);
-      setValue("amount", expense.expense_amount);
-      setValue("payment_method", expense.expense_payment_method);
-      setValue("notes", expense.expense_notes);
+      setCharge(filterType)
+      if (filterType === "expenses") {
+        setValue("username", expense.user.email);
+        setValue("date", expense.expense_date);
+        setValue("category", expense.expense_category);
+        setValue("description", expense.expense_description);
+        setValue("amount", expense.expense_amount);
+        setValue("payment_method", expense.expense_payment_method);
+        setValue("notes", expense.expense_notes);
+      } else if (filterType === "incomes") {
+        console.log(expense);
+        
+        setValue("username", expense.user.email);
+        setValue("date", expense.income_date);
+        setValue("category", expense.income_category);
+        setValue("description", expense.income_description);
+        setValue("amount", expense.income_amount);
+        setValue("payment_method", expense.income_source);
+        setValue("notes", expense.income_notes);
+      }
     }
   }, [expense, setValue]);
 
@@ -64,8 +112,11 @@ function ModalCharge({ onClose, refreshData, expense }) {
     <>
       <form action="" onSubmit={onSubmit}>
         <h1 className="text-slate-200 font-bold text-4xl mb-4 col-span-full">
-          {expense ? "Edit" : "Charge"}
-          <SelectTransaction setCharge={setCharge} />
+          {expense ? "Edit" : "Charge"} transaction
+          <SelectTransaction
+            setCharge={setCharge}
+            editValue={expense ? filterType : null}
+          />
         </h1>
 
         <div className="flex flex-col">
@@ -222,7 +273,7 @@ function ModalCharge({ onClose, refreshData, expense }) {
         </div>
 
         <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2 col-span-full">
-          Add charge
+        {expense ? "Edit" : "Add"} {charge === "expenses" ? "expense" : "income"}
         </button>
       </form>
     </>

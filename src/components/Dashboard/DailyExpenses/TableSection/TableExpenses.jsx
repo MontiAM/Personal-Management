@@ -68,7 +68,7 @@ const TableExpenses = ({ dataSource, setDataSource, refreshData, filterType }) =
         onCancel={handleCancel}
         footer={null}
       >
-        <ModalCharge onClose={handleCancel} refreshData={refreshData} expense={selectedExpense}/>
+        <ModalCharge onClose={handleCancel} refreshData={refreshData} expense={selectedExpense} filterType={filterType}/>
       </Modal>
     </>
   );

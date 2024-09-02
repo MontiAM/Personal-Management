@@ -1,8 +1,7 @@
 import { Segmented } from "antd";
 
-const SelectTransaction = ({ setCharge }) => {
+const SelectTransaction = ({ setCharge, editValue}) => {
   const handleChange = (value) => {
-
     setCharge(value.toLowerCase());
   };
 
@@ -11,7 +10,9 @@ const SelectTransaction = ({ setCharge }) => {
       <Segmented
         onChange={handleChange}
         options={["Expenses", "Incomes"]}
+        value={editValue ? editValue.charAt(0).toUpperCase() + editValue.slice(1).toLowerCase() : undefined}
         block
+        disabled={!!editValue}
       />
     </div>
   );

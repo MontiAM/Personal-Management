@@ -103,7 +103,7 @@ export async function GET(request) {
 
     incomes = incomes.map((income) => ({
         ...income,
-        // email: income.user.email, 
+        email: income.user.email, 
         income_date: income.income_date.toISOString().split('T')[0], 
       }));
   
