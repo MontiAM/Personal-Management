@@ -1,12 +1,11 @@
 import { DatePicker, Space } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-
 dayjs.extend(customParseFormat);
 
 const monthFormat = "YYYY/MM";
 
-const DatePickerExpense = ({ onDateChange }) => {
+const DatePickerComponent = ({ onDateChange }) => {
   const handleChange = (date) => {
     onDateChange(date);
   };
@@ -27,4 +26,4 @@ const DatePickerExpense = ({ onDateChange }) => {
   );
 };
 
-export default DatePickerExpense;
+export default DatePickerComponent;

@@ -1,5 +1,5 @@
 import TableExpenses from "./TableExpenses";
-import DatePickerExpense from "./DatePicker";
+import DatePickerComponent from "../../../common/DatePicker";
 import SelectPicker from "./SelectPicker";
 import ModalCharge from "../../Transactions/ModalCharge";
 import { CloseOutlined } from "@ant-design/icons";
@@ -50,7 +50,7 @@ function TableSection() {
         <div className="flex flex-col md:flex-row lg:flex-row justify-between md:items-center">
           <div className="flex gap-2 justify-center items-center ">
             <div className="flex gap-2 items-start">
-              <DatePickerExpense onDateChange={setSelectedDate} />
+              <DatePickerComponent onDateChange={setSelectedDate} />
               <SelectPicker onFilterChange={setSelectFilter}/>
             </div>
             <button onClick={handleFilter} className="text-white h-12 rounded-lg bg-blue-500 p-3 col-span-full">
