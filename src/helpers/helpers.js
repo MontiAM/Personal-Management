@@ -1,4 +1,4 @@
-export const getColumns = (data) => {
+const getColumns = (data) => {
   if (!Array.isArray(data) || data.length === 0) {
     return [];
   }
