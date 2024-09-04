@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-// import { authOptions  } from "../auth/[...nextauth]/route";
+// import { authOptions } from "../auth/[...nextauth]/route";
 // import { getServerSession } from "next-auth";
 import db from "@/libs/db";
 import getPreviousMonthRange from "@/helpers/getPreviousMonthRange";
@@ -15,12 +15,14 @@ export async function GET(request) {
   //   })
   // }
 
-  // http://localhost:3000/api/statistics/totalExpenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31
+  // http://localhost:3000/api/statistics/totalIncomes?fecha_desde=2024-08-01&fecha_hasta=2024-08-31
+//   http://localhost:3000/api/statistics/totalIncomes?fecha_desde=2024-08-01&fecha_hasta=2024-08-31&income_category=Work
 
   try {
     const { searchParams } = new URL(request.url);
     const fecha_desde = searchParams.get("fecha_desde");
     const fecha_hasta = searchParams.get("fecha_hasta");
+    const category = searchParams.get("income_category");
 
     if (fecha_desde && fecha_hasta) {
       const startDate = new Date(fecha_desde);
@@ -35,7 +37,7 @@ export async function GET(request) {
 
       const previousMonthRange = getPreviousMonthRange(startDate);
 
-      const totalIncomesCurrent = await db.daily_incomes.groupBy({
+      const queryOptions = {
         by: ["income_category"],
         where: {
           income_date: {
@@ -46,9 +48,8 @@ export async function GET(request) {
         _sum: {
           income_amount: true,
         },
-      });
-
-      const totalIncomesPrevious = await db.daily_incomes.groupBy({
+      };
+      const queryPreviousOptions = {
         by: ["income_category"],
         where: {
           income_date: {
@@ -59,7 +60,16 @@ export async function GET(request) {
         _sum: {
           income_amount: true,
         },
-      });
+      };
+
+
+      if (category) {
+        queryOptions.where.income_category = category;
+        queryPreviousOptions.where.income_category = category;
+      }
+
+      const totalIncomesCurrent = await db.daily_incomes.groupBy(queryOptions);
+      const totalIncomesPrevious = await db.daily_incomes.groupBy(queryPreviousOptions);
 
       const transformedCurrentPeriod = totalIncomesCurrent.map((item) => ({
         income_amount: item._sum.income_amount,

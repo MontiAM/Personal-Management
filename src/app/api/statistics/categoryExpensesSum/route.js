@@ -16,11 +16,13 @@ export async function GET(request) {
   // }
 
   // http://localhost:3000/api/statistics/totalExpenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31
+  // http://localhost:3000/api/statistics/totalExpenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31&expense_category=
 
   try {
     const { searchParams } = new URL(request.url);
     const fecha_desde = searchParams.get("fecha_desde");
     const fecha_hasta = searchParams.get("fecha_hasta");
+    const category = searchParams.get("expense_category");
 
     if (fecha_desde && fecha_hasta) {
       const startDate = new Date(fecha_desde);
@@ -35,7 +37,7 @@ export async function GET(request) {
 
       const previousMonthRange = getPreviousMonthRange(startDate);
 
-      const totalExpensesCurrent = await db.daily_expenses.groupBy({
+      const queryOptions = {
         by: ["expense_category"],
         where: {
           expense_date: {
@@ -46,9 +48,9 @@ export async function GET(request) {
         _sum: {
           expense_amount: true,
         },
-      });
+      };
 
-      const totalExpensesPrevious = await db.daily_expenses.groupBy({
+      const queryPreviousOptions = {
         by: ["expense_category"],
         where: {
           expense_date: {
@@ -59,7 +61,19 @@ export async function GET(request) {
         _sum: {
           expense_amount: true,
         },
-      });
+      };
+
+      if (category) {
+        queryOptions.where.expense_category = category;
+        queryPreviousOptions.where.expense_category = category;
+      }
+
+      const totalExpensesCurrent = await db.daily_expenses.groupBy(
+        queryOptions
+      );
+      const totalExpensesPrevious = await db.daily_expenses.groupBy(
+        queryPreviousOptions
+      );
 
       const transformedCurrentPeriod = totalExpensesCurrent.map((item) => ({
         expense_amount: item._sum.expense_amount,
