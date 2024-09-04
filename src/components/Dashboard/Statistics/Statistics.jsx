@@ -8,9 +8,11 @@ dayjs.extend(customParseFormat);
 
 const Statistics = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [filterDate, setFilterDate] = useState(dayjs());
+
   const handleFilter = () => {
-    console.log(selectedDate);
-  }
+    setFilterDate(selectedDate);
+  };
 
   return (
     <div className="flex flex-col justify-center items-stretch">
@@ -27,7 +29,7 @@ const Statistics = () => {
       </div>
 
       <div className="w-full">
-        <StatisticsSection />
+        <StatisticsSection fetchDate={filterDate}/>
       </div>
       <div className="py-4 w-full">
         <ChartSection />

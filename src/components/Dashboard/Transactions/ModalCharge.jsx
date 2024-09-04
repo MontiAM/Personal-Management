@@ -85,7 +85,7 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
 
   useEffect(() => {
     if (expense) {
-      setCharge(filterType)
+      setCharge(filterType);
       if (filterType === "expenses") {
         setValue("username", expense.user.email);
         setValue("date", expense.expense_date);
@@ -96,7 +96,7 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
         setValue("notes", expense.expense_notes);
       } else if (filterType === "incomes") {
         console.log(expense);
-        
+
         setValue("username", expense.user.email);
         setValue("date", expense.income_date);
         setValue("category", expense.income_category);
@@ -168,7 +168,8 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
               ) : (
                 <>
                   <option value="Work">Work</option>
-                  <option value="Others">Others</option>
+                  <option value="Others">Others</option>{" "}
+                  <option value="Savings">Savings</option>
                 </>
               )}
             </select>
@@ -273,7 +274,8 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
         </div>
 
         <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2 col-span-full">
-        {expense ? "Edit" : "Add"} {charge === "expenses" ? "expense" : "income"}
+          {expense ? "Edit" : "Add"}{" "}
+          {charge === "expenses" ? "expense" : "income"}
         </button>
       </form>
     </>
