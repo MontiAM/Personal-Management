@@ -1,12 +1,16 @@
 import DatePickerComponent from "@/components/common/DatePicker";
-import ChartSection from "./ChartSection/ChartSection";
 import StatisticsSection from "./StatisticsSection/StatisticsSection";
+import ChartSection from "./ChartSection/ChartSection";
+import TableBalanceSection from "./TableBalance/TableBalanceSection";
+
 import { useState } from "react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 const Statistics = () => {
+  
+
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [filterDate, setFilterDate] = useState(dayjs());
 
@@ -28,11 +32,16 @@ const Statistics = () => {
         </button>
       </div>
 
-      <div className="w-full">
-        <StatisticsSection fetchDate={filterDate}/>
+      <div className="tiene que ocupar 2/tercios del ancho">
+        <div className="w-full">
+          <StatisticsSection fetchDate={filterDate} />
+        </div>
+        <div className="py-4 w-full">
+          <ChartSection />
+        </div>
       </div>
-      <div className="py-4 w-full">
-        <ChartSection />
+      <div className="tiene que ocupar el 1/tercio del ancho restanto">
+        <TableBalanceSection fetchDate={filterDate} />
       </div>
     </div>
   );

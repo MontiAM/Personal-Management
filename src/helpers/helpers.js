@@ -29,13 +29,18 @@ export const transformColumns = (data, onEdit, onDelete) => {
   );
 
   const mappedColumns = visibleColumns.map((column) => ({
-    title:
-    column.slice(column.indexOf('_') + 1).replace(/^\w/, c => c.toUpperCase()),
+    title: column
+      .slice(column.indexOf("_") + 1)
+      .replace(/^\w/, (c) => c.toUpperCase()),
     dataIndex: column,
     sortDirections: ["ascend", "descend"],
     filterSearch: true,
     width:
-    column.endsWith('_id') || column.endsWith('_amount') ? 50 : column.endsWith('_date') ? 70 : 150,
+      column.endsWith("_id") || column.endsWith("_amount")
+        ? 50
+        : column.endsWith("_date")
+        ? 70
+        : 150,
     sorter: (a, b) => {
       const parseDate = (dateStr) => {
         const [year, month, day] = dateStr.split("-").map(Number);
@@ -98,5 +103,7 @@ export const transformColumns = (data, onEdit, onDelete) => {
     },
   ];
 
-  return [...mappedColumns, ...actionColumns];
+  if (onEdit && onDelete) {
+    return [...mappedColumns, ...actionColumns];
+  } else return mappedColumns;
 };
