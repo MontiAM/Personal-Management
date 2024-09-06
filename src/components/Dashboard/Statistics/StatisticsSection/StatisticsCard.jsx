@@ -13,24 +13,15 @@ const StatisticCard = ({
     type === "income" ? -1 * percentageChange >= 0 : percentageChange >= 0;
 
   return (
-    <Card
-      bordered={false}
-      style={{
-        width: "100%",
-        height: 230,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <Text strong>{categoryName}</Text>
-      <Statistic
-        value={totalAmount}
-        precision={2}
-        style={{ marginTop: 8, marginBottom: 8 }}
-      />
+    <Card bordered={false} className="statistic-card ">
+      <div className="flex lg:flex-col gap-2">
+        <Text strong>{categoryName}</Text>
+        <Statistic
+          value={totalAmount}
+          precision={2}
+          style={{ marginTop: 8, marginBottom: 8 }}
+        />
+      </div>
       <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
         <Progress
           type="circle"

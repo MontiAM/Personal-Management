@@ -47,19 +47,19 @@ const data = [
     amt: 2500,
   },
   {
-    name: "Page G",
+    name: "Page G", 
     uv: 3490,
     pv: 4300,
     amt: 2100,
   },
-];
+]; 
 
 const Chart1 = () => (
   <>
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
-        width={500}
-        height={300}
+        // width={500}
+        // height={150}
         data={data}
         margin={{
           top: 5,

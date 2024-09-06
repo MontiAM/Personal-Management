@@ -34,7 +34,7 @@ const TableBalanceSection = ({ fetchDate }) => {
 
   return (
     <>
-      <div className="bg-gray-950 lg:h-[calc(100vh-11rem)] rounded-lg shadow-lg shadow-gray-900">
+      <div className="bg-gray-950 lg:h-[calc(100vh-6rem)] shadow-lg shadow-gray-900 rounded-lg p-2">
         <h1 className="text-white text-lg sm:text-xl font-bold">Balance</h1>
         <TableBalance dataSource={dataBalance} />
       </div>
