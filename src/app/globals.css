@@ -80,3 +80,8 @@ body {
 .ant-segmented-item:hover:not(.ant-segmented-item-selected):not(.ant-segmented-item-disabled) {
   color: #e2e8f0!important;
 }
+
+/* Statistics Card */
+.ant-card .ant-card-body {
+  padding: 15px 15px;
+}

@@ -6,7 +6,7 @@ import Chart3 from "./Chart3";
 const ChartSection = () => {
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         <ChartContainer
           title="Gráfico de Ventas"
           description="Ventas del último trimestre"
@@ -18,9 +18,9 @@ const ChartSection = () => {
           <Chart2/>
         </ChartContainer>
 
-        <ChartContainer title="Gráfico de Ingresos">
+        {/* <ChartContainer title="Gráfico de Ingresos">
           <Chart3/>
-        </ChartContainer>
+        </ChartContainer> */}
       </div>
     </>
   );

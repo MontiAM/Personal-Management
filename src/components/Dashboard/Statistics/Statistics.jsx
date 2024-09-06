@@ -9,8 +9,6 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 const Statistics = () => {
-  
-
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [filterDate, setFilterDate] = useState(dayjs());
 
@@ -32,16 +30,18 @@ const Statistics = () => {
         </button>
       </div>
 
-      <div className="tiene que ocupar 2/tercios del ancho">
-        <div className="w-full">
-          <StatisticsSection fetchDate={filterDate} />
+      <div className="flex flex-wrap mt-4">
+        <div className="bg-gray-950 lg:h-[calc(100vh-11rem)] rounded-lg shadow-lg shadow-gray-900  w-full lg:w-2/3 pr-4">
+          <div className="w-full">
+            <StatisticsSection fetchDate={filterDate} />
+          </div>
+          <div className="py-4 w-full">
+            <ChartSection />
+          </div>
         </div>
-        <div className="py-4 w-full">
-          <ChartSection />
+        <div className="w-full lg:w-1/3 pl-4">
+          <TableBalanceSection fetchDate={filterDate} />
         </div>
-      </div>
-      <div className="tiene que ocupar el 1/tercio del ancho restanto">
-        <TableBalanceSection fetchDate={filterDate} />
       </div>
     </div>
   );

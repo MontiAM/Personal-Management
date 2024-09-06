@@ -1,4 +1,3 @@
-import { Table } from "antd";
 import TableBalance from "./TableBalance";
 
 const TableBalanceSection = ({ fetchDate }) => {
@@ -35,7 +34,7 @@ const TableBalanceSection = ({ fetchDate }) => {
 
   return (
     <>
-      <div>
+      <div className="bg-gray-950 lg:h-[calc(100vh-11rem)] rounded-lg shadow-lg shadow-gray-900">
         <h1 className="text-white text-lg sm:text-xl font-bold">Balance</h1>
         <TableBalance dataSource={dataBalance} />
       </div>

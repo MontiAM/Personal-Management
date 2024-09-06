@@ -10,7 +10,7 @@ function StatisticsSection({ fetchDate }) {
   const [totalExpenseAmount, setTotalExpenseAmount] = useState(0);
 
   const getPercentage = (current, previous) => {
-    if (previous === 0 || isNaN(previous) ) {
+    if (previous === 0 || isNaN(previous)) {
       return 0;
     }
     return Math.round(((current - previous) * 100) / previous);
@@ -47,12 +47,17 @@ function StatisticsSection({ fetchDate }) {
       };
 
       const fetchData = async () => {
-        const resTotalIncomesAmount = await geTotalIncomeAmount(startOfMonth, endOfMonth);
-        const resTotalExpensesAmount = await geTotalExpenseAmount(startOfMonth, endOfMonth);
+        const resTotalIncomesAmount = await geTotalIncomeAmount(
+          startOfMonth,
+          endOfMonth
+        );
+        const resTotalExpensesAmount = await geTotalExpenseAmount(
+          startOfMonth,
+          endOfMonth
+        );
 
         setTotalIncomeAmount(resTotalIncomesAmount);
         setTotalExpenseAmount(resTotalExpensesAmount);
-        
       };
 
       fetchData();
@@ -61,8 +66,7 @@ function StatisticsSection({ fetchDate }) {
 
   return (
     <>
-   
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4">
         <StatisticCard
           totalAmount={totalIncomeAmount.currentPeriod}
           percentageChange={getPercentage(
