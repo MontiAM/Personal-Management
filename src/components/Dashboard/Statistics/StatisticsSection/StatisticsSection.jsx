@@ -2,11 +2,19 @@ import { useEffect, useState } from "react";
 import StatisticCard from "./StatisticsCard";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+
 dayjs.extend(customParseFormat);
 
 function StatisticsSection({ fetchDate }) {
   const [totalIncomeAmount, setTotalIncomeAmount] = useState(0);
   const [totalExpenseAmount, setTotalExpenseAmount] = useState(0);
+
+  const getPercentage = (current, previous) => {
+    if (previous === 0 || isNaN(previous) ) {
+      return 0;
+    }
+    return Math.round(((current - previous) * 100) / previous);
+  };
 
   useEffect(() => {
     if (fetchDate) {
@@ -39,46 +47,46 @@ function StatisticsSection({ fetchDate }) {
       };
 
       const fetchData = async () => {
-        
-        const resTotalIncomesAmount = await geTotalIncomeAmount(
-          startOfMonth,
-          endOfMonth
-        );
-        setTotalIncomeAmount(resTotalIncomesAmount);
+        const resTotalIncomesAmount = await geTotalIncomeAmount(startOfMonth, endOfMonth);
+        const resTotalExpensesAmount = await geTotalExpenseAmount(startOfMonth, endOfMonth);
 
-        const resTotalExpensesAmount = await geTotalExpenseAmount(
-          startOfMonth,
-          endOfMonth
-        );
+        setTotalIncomeAmount(resTotalIncomesAmount);
         setTotalExpenseAmount(resTotalExpensesAmount);
+        
       };
 
       fetchData();
     }
   }, [fetchDate]);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <StatisticCard
-        totalAmount={1000}
-        percentageChange={0}
-        categoryName={"Total Ingresos"}
-      />
-      <StatisticCard
-        totalAmount={3000}
-        percentageChange={30}
-        categoryName={"Total Gastos"}
-      />
-      <StatisticCard
-        totalAmount={500}
-        percentageChange={40}
-        categoryName={"Diferencia"}
-      />
-      <StatisticCard
-        totalAmount={6000}
-        percentageChange={-5}
-        categoryName={"Ahorro"}
-      />
-    </div>
+    <>
+   
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatisticCard
+          totalAmount={totalIncomeAmount.currentPeriod}
+          percentageChange={getPercentage(
+            totalIncomeAmount.currentPeriod,
+            totalIncomeAmount.previousPeriod
+          )}
+          type="income"
+          categoryName={"Total Ingresos"}
+        />
+        <StatisticCard
+          totalAmount={totalExpenseAmount.currentPeriod}
+          percentageChange={getPercentage(
+            totalExpenseAmount.currentPeriod,
+            totalExpenseAmount.previousPeriod
+          )}
+          categoryName={"Total Gastos"}
+        />
+        <StatisticCard
+          totalAmount={6000}
+          percentageChange={-5}
+          categoryName={"Ahorro"}
+        />
+      </div>
+    </>
   );
 }
 

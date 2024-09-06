@@ -3,8 +3,8 @@ import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
-const StatisticCard = ({ categoryName, totalAmount, percentageChange }) => {
-  const isPositive = percentageChange >= 0;
+const StatisticCard = ({ categoryName, totalAmount, percentageChange, type="expense"}) => {
+  const isPositive = type === "income" ?  -1 * percentageChange >= 0: percentageChange >= 0;
 
   return (
     <Card
@@ -29,10 +29,10 @@ const StatisticCard = ({ categoryName, totalAmount, percentageChange }) => {
             value={percentageChange}
             precision={2}
             valueStyle={{ color: isPositive ? "#cf1322" : "#3f8600" }}
-            prefix={isPositive ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+            prefix={ type == "income" ? (isPositive ? <ArrowDownOutlined/>  : <ArrowUpOutlined />) : isPositive ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
             suffix="%"
           />
-          <Text>{isPositive ? "Aumento" : "Disminución"} respecto al mes anterior</Text>
+          <Text>{  type == "income" ? (isPositive ? "Disminución" : "Aumento") : (isPositive ? "Aumento" : "Disminución")} respecto al mes anterior</Text>
         </div>
       </div>
     </Card>

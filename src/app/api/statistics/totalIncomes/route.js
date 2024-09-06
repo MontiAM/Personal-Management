@@ -62,8 +62,8 @@ export async function GET(request) {
       });
       return NextResponse.json(
         {
-          currentPeriod: totalExpensesCurrent._sum.income_amount,
-          previousPeriod: totalExpensesPrevious._sum.income_amount,
+          currentPeriod: parseFloat(totalExpensesCurrent._sum.income_amount),
+          previousPeriod: parseFloat(totalExpensesPrevious._sum.income_amount),
         },
         {
           status: 200,
