@@ -15,8 +15,7 @@ export async function GET(request) {
   //   })
   // }
 
-  // http://localhost:3000/api/statistics/totalExpenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31
-  // http://localhost:3000/api/statistics/totalExpenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31&expense_category=
+  // http://localhost:3000/api/statistics/categoryExpensesSum?fecha_desde=2024-08-01&fecha_hasta=2024-08-31&expense_category=
 
   try {
     const { searchParams } = new URL(request.url);
@@ -84,6 +83,10 @@ export async function GET(request) {
         expense_amount: item._sum.expense_amount,
         expense_category: item.expense_category,
       }));
+
+      console.log(transformedCurrentPeriod);
+      console.log(transformedPreviousPeriod);
+      
 
       return NextResponse.json(
         {

@@ -14,12 +14,12 @@ const StatisticCard = ({
 
   return (
     <Card bordered={false} className="statistic-card ">
-      <div className="flex lg:flex-col gap-2">
-        <Text strong>{categoryName}</Text>
+      <div className="flex lg:flex-col">
+        <Text className="sm:mx-2" strong>{categoryName}</Text>
         <Statistic
           value={totalAmount}
           precision={2}
-          style={{ marginTop: 8, marginBottom: 8 }}
+          style={{ marginTop: 0, marginBottom: 8, marginLeft: 5 }}
         />
       </div>
       <div style={{ display: "flex", alignItems: "center", width: "100%" }}>

@@ -88,7 +88,7 @@ body {
 
 .statistic-card {
   width: 100%;
-  height: 230px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -100,5 +100,6 @@ body {
 
 
 .ant-card .ant-card-body {
-  padding: 15px 15px;
+  padding: 5px 10px;
 }
+
