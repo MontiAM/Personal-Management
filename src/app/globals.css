@@ -38,8 +38,11 @@ body {
   tfoot > tr > th,
   tfoot > tr > td {
     position: relative;
-    padding: 10px;
+    padding: 8px;
     overflow-wrap: break-word;
+    @media (max-width: 768px) {
+      padding: 5px;
+    }
   }
 
   @media (max-width: 1024px) {
@@ -90,7 +93,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center ;
-  @media (max-width: 640px) { 
+  @media (max-width: 767px) { 
       height: 180px; 
   }
 }

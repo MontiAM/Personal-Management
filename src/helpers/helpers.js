@@ -7,6 +7,49 @@ const getColumns = (data) => {
   return columns;
 };
 
+export const transformBalanceColumns = (data) => {
+  const columns = getColumns(data);
+
+  const mappedColumns = columns.map((column) => {
+    const isNumeric = (value) => !isNaN(value);
+    const isYearMonthFormat = (value) => /^\d{4}\/\d{1,2}$/.test(value);
+
+    return {
+      title: column
+        .slice(column.indexOf("_") + 1)
+        .replace(/^\w/, (c) => c.toUpperCase()),
+      dataIndex: column,
+      sortDirections: ["ascend", "descend"],
+      filterSearch: true,
+      width: 45,
+      sorter: (a, b) => {
+        const aValue = a[column];
+        const bValue = b[column];
+
+       
+        if (isNumeric(aValue) && isNumeric(bValue)) {
+          return aValue - bValue;
+        }
+
+        if (isYearMonthFormat(aValue) && isYearMonthFormat(bValue)) {
+         
+          const parseYearMonth = (str) => {
+            const [year, month] = str.split("/").map(Number);
+            return new Date(year, month - 1);
+          };
+
+          return parseYearMonth(aValue) - parseYearMonth(bValue);
+        }
+
+        return 0;
+      },
+    };
+  });
+
+  return mappedColumns;
+};
+
+
 export const transformColumns = (data, onEdit, onDelete) => {
   const columns = getColumns(data);
 

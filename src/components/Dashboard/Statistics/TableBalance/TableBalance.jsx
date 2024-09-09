@@ -1,17 +1,24 @@
 import { Table } from "antd";
-import { transformColumns } from "@/helpers/helpers";
+import { transformBalanceColumns } from "@/helpers/helpers";
 
 const TableBalance = ({ dataSource }) => {
 
-  const columns = transformColumns(dataSource);
+  const newData = dataSource.map((item) => ({
+    period: `${item.year}/${item.month}`,
+    total_income: item.total_income,
+    total_expense: item.total_expense,
+    balance: item.balance
+  }))
+
+  const columns = transformBalanceColumns(newData);
 
   return (
     <>
       <Table
         columns={columns}
-        dataSource={dataSource}
+        dataSource={newData}
         // rowKey={`${filterType.slice(0, -1)}_id`}
-        scroll={{ x: "100vh", y: "calc(100vh - 20rem)" }}
+        scroll={{ y: "calc(100vh - 13rem)" }}
         bordered
         pagination={false}
       />
