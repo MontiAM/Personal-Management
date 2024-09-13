@@ -26,17 +26,31 @@ export async function POST(request) {
       );
     }
 
+    const exists = await db.transaction_type.findMany({
+      where: {
+        trans_type_name: data.trans_type_name.toUpperCase(),
+      }
+    })
+    
+    if (exists.length > 0) {
+      return NextResponse.json(
+        { message: "Transaction type already exists" },
+        { status: 409 }
+      );
+    }
+
+
     const newTransaction = await db.transaction_type.create({
       data: {
         trans_type_name: data.trans_type_name.toUpperCase(),
       },
     });
-    return NextResponse.json(newTransaction, { status: 200 });
+    return NextResponse.json({message: "POST transaction_type response", data: newTransaction}, { status: 200 });
   } catch (error) {
     console.error("Error fetching transaction type: ", error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-}
+} 
 
 export async function GET(request) {
 
@@ -58,7 +72,7 @@ export async function GET(request) {
     }));
 
     return NextResponse.json(
-      { message: "GET response", data: formattedListTransType },
+      { message: "GET transaction_type response", data: formattedListTransType },
       { status: 200 }
     );
   } catch (error) {

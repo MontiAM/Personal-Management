@@ -45,7 +45,10 @@ export async function GET(request) {
         .split("T")[0],
     };
 
-    return NextResponse.json(formaterTransType, { status: 200 });
+    return NextResponse.json(
+      { message: "GET transaction_type id response", data: formaterTransType },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching transaction type: ", error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
@@ -161,8 +164,19 @@ export async function DELETE(req) {
       where: { trans_type_id: parseInt(id, 10) },
     });
 
+    const formaterTransType = {
+      trans_type_id: updatedTransType.trans_type_id,
+      trans_type_name: updatedTransType.trans_type_name,
+      trans_type_updated_at: updatedTransType.trans_type_updated_at
+        .toISOString()
+        .split("T")[0],
+    };
+
     return NextResponse.json(
-      { message: "Transaction type deleted successfully" },
+      {
+        message: "Transaction type deleted successfully",
+        data: formaterTransType,
+      },
       { status: 200 }
     );
   } catch (error) {
