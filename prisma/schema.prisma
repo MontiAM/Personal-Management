@@ -9,48 +9,47 @@ datasource db {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
-  email          String           @unique
-  username       String           @unique
-  password       String
-  createdAt      DateTime         @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime         @default(now()) @db.Timestamptz(6)
-  daily_expenses daily_expenses[]
-  daily_incomes  daily_incomes[]
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  username     String         @unique
+  password     String
+  createdAt    DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime       @default(now()) @db.Timestamptz(6)
+  transactions transactions[]
 }
 
-model daily_expenses {
-  expense_id             Int      @id @default(autoincrement())
-  expense_date           DateTime @db.Date
-  expense_category       String   @db.VarChar(50)
-  expense_description    String?
-  expense_amount         Decimal  @db.Decimal(10, 2)
-  expense_payment_method String?  @db.VarChar(50)
-  expense_location       String?  @db.VarChar(100)
-  expense_notes          String?
-  user_id                Int
-  created_at             DateTime @default(now()) @db.Timestamptz(6)
-  updated_at             DateTime @default(now()) @db.Timestamptz(6)
-  user                   User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+model transaction_type {
+  trans_type_id         Int                    @id @default(autoincrement())
+  trans_type_name       String                 @db.VarChar(50)
+  trans_type_created_at DateTime?              @default(now()) @db.Timestamptz(6)
+  trans_type_updated_at DateTime?              @default(now()) @db.Timestamptz(6)
+  transaction_category  transaction_category[]
 }
 
-model daily_incomes {
-  income_id          Int      @id @default(autoincrement())
-  income_date        DateTime @db.Date
-  income_category    String   @db.VarChar(50)
-  income_description String?
-  income_amount      Decimal  @db.Decimal(10, 2)
-  income_source      String?  @db.VarChar(50)
-  income_location    String?  @db.VarChar(100)
-  income_notes       String?
-  user_id            Int
-  created_at         DateTime @default(now()) @db.Timestamptz(6)
-  updated_at         DateTime @default(now()) @db.Timestamptz(6)
-  user               User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+model transaction_category {
+  trans_cat_id            Int              @id @default(autoincrement())
+  trans_cat_name          String           @db.VarChar(100)
+  trans_cat_trans_type_id Int
+  trans_cat_status        String?          @default("Activo") @db.VarChar(20)
+  trans_cat_description   String?
+  trans_cat_created_at    DateTime?        @default(now()) @db.Timestamptz(6)
+  trans_cat_updated_at    DateTime?        @default(now()) @db.Timestamptz(6)
+  transaction_type        transaction_type @relation(fields: [trans_cat_trans_type_id], references: [trans_type_id])
+  transactions            transactions[]
 }
 
-model categories_expenses {
-  id         Int     @id(map: "categories_pkey") @default(autoincrement())
-  name       String  @db.VarChar(50)
-  max_amount Decimal @db.Decimal(10, 2)
+model transactions {
+  trans_id             Int                  @id @default(autoincrement())
+  trans_date           DateTime             @db.Date
+  trans_amount         Decimal              @db.Decimal(10, 2)
+  trans_payment_method String?              @db.VarChar(50)
+  trans_location       String?              @db.VarChar(100)
+  trans_notes          String?
+  trans_description    String?
+  trans_cat_id         Int
+  trans_user_id        Int
+  trans_created_at     DateTime?            @default(now()) @db.Timestamptz(6)
+  trans_updated_at     DateTime?            @default(now()) @db.Timestamptz(6)
+  user                 User                 @relation(fields: [trans_user_id], references: [id], onDelete: Cascade)
+  transaction_category transaction_category @relation(fields: [trans_cat_id], references: [trans_cat_id])
 }

@@ -32,3 +32,34 @@ CREATE TABLE public.daily_incomes (
     FOREIGN KEY(user_id) REFERENCES "User"(id) ON DELETE CASCADE
 );
 
+CREATE TABLE transaction_type (
+    trans_type_id SERIAL PRIMARY KEY,
+    trans_type_name VARCHAR(50) NOT NULL, 
+    trans_type_created_at TIMESTAMPTZ DEFAULT NOW(),
+    trans_type_updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE transaction_category (
+    trans_cat_id SERIAL PRIMARY KEY,
+    trans_cat_name VARCHAR(100) NOT NULL,  -- Ej: Alquiler, Sueldo, etc.
+    trans_cat_trans_type_id INT NOT NULL REFERENCES transaction_type(trans_type_id),  -- Relación con transaction_type
+    trans_cat_status VARCHAR(20) DEFAULT 'Activo',  -- Estado de la categoría (Activo/Inactivo)
+    trans_cat_description TEXT,
+    trans_cat_created_at TIMESTAMPTZ DEFAULT NOW(),
+    trans_cat_updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE transactions (
+    trans_id SERIAL PRIMARY KEY,
+    trans_date DATE NOT NULL,
+    trans_amount DECIMAL(10, 2) NOT NULL,
+    trans_payment_method VARCHAR(50),  -- Ej: Tarjeta, Efectivo, etc.
+    trans_location VARCHAR(100),  -- Ubicación opcional
+    trans_notes TEXT,
+	trans_description TEXT,
+    trans_cat_id INT NOT NULL REFERENCES transaction_category(trans_cat_id),  -- Relación con la categoría
+	trans_user_id INT NOT NULL,
+    trans_created_at TIMESTAMPTZ DEFAULT NOW(),
+    trans_updated_at TIMESTAMPTZ DEFAULT NOW(),
+	FOREIGN KEY(trans_user_id) REFERENCES "User"(id) ON DELETE CASCADE
+);
