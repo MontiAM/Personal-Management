@@ -77,13 +77,13 @@ export async function PUT(request) {
         { status: 400 }
       );
     }
-    const transType = await db.transaction_type.findUnique({
-      where: { trans_type_id: parseInt(id, 10) },
+    const transCategory = await db.transaction_category.findUnique({
+      where: { trans_cat_id: parseInt(id, 10) },
     });
 
-    if (!transType) {
+    if (!transCategory) {
       return NextResponse.json(
-        { message: "Transaction type not found" },
+        { message: "Transaction category not found" },
         { status: 400 }
       );
     }
@@ -91,35 +91,52 @@ export async function PUT(request) {
     const data = await request.json();
 
     if (
-      typeof data.trans_type_name !== "string" ||
-      data.trans_type_name.trim() === ""
+      typeof data.trans_cat_name !== "string" ||
+      data.trans_cat_name.trim() === ""
     ) {
       return NextResponse.json(
-        { message: "Transaction type name must be a non-empty string" },
+        { message: "Transaction category name must be a non-empty string" },
         { status: 400 }
       );
     }
 
-    const updatedTransType = await db.transaction_type.update({
-      where: { trans_type_id: parseInt(id, 10) },
+    const existsType = await db.transaction_type.findUnique({
+      where: {trans_type_id: data.trans_cat_trans_type_id}
+    })
+
+    if (!existsType) {
+      return NextResponse.json(
+        { message: "Transaction type not found" },
+        { status: 400 }
+      );
+    }
+    
+
+    const updatedTransCategory = await db.transaction_category.update({
+      where: { trans_cat_id: parseInt(id, 10) },
       data: {
-        trans_type_name: data.trans_type_name.toUpperCase(),
-        trans_type_updated_at: new Date(),
+        trans_cat_name: data.trans_cat_name.toUpperCase(),
+        trans_cat_trans_type_id: data.trans_cat_trans_type_id,
+        trans_cat_updated_at: new Date(),
+      },
+      include: {
+        transaction_type: true,
       },
     });
 
-    const formaterUpdatedTransType = {
-      trans_type_id: updatedTransType.trans_type_id,
-      trans_type_name: updatedTransType.trans_type_name,
-      trans_type_updated_at: updatedTransType.trans_type_updated_at
-        .toISOString()
-        .split("T")[0],
+    const formattedTransCategory = {
+      trans_cat_id: updatedTransCategory.trans_cat_id,
+      trans_cat_name: updatedTransCategory.trans_cat_name,
+      trans_cat_trans_type_id: updatedTransCategory.trans_cat_trans_type_id,
+      l_trans_type_name: updatedTransCategory.transaction_type.trans_type_name, // Now this should work
+      trans_cat_status: updatedTransCategory.trans_cat_status,
     };
+
 
     return NextResponse.json(
       {
-        message: "Transaction type succesfully updated",
-        data: formaterUpdatedTransType,
+        message: "Transaction category succesfully updated",
+        data: formattedTransCategory,
       },
       { status: 200 }
     );
