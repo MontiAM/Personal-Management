@@ -195,7 +195,7 @@ export async function DELETE(req) {
     };
 
     return NextResponse.json(
-      { message: "Transaction category deleted successfully", data: formatertransCategory },
+      { message: "Transaction category successfully deleted", data: formatertransCategory },
       { status: 200 }
     );
   } catch (error) {
