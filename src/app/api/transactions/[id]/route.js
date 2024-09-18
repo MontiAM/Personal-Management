@@ -27,6 +27,7 @@ export async function GET(request) {
       where: { trans_id: parseInt(id, 10) },
       include: {
         transaction_category: true,
+        payment_methods: true,
         user: true,
       },
     });
@@ -46,6 +47,8 @@ export async function GET(request) {
       trans_description: transactionData.trans_description,
       trans_cat_id: transactionData.trans_cat_id,
       l_trans_type_name: transactionData.transaction_category.trans_cat_name,
+      trans_payment_method_id: transactionData.trans_payment_method_id,
+      l_pay_method_name: transactionData.payment_methods.pay_method_name,
       l_user_email: transactionData.user.email,
     };
 
@@ -120,18 +123,6 @@ export async function PUT(request) {
       return NextResponse.json({ message: "User not found" }, { status: 400 });
     }
 
-    if (
-      typeof data.trans_payment_method !== "string" ||
-      data.trans_payment_method.trim() === ""
-    ) {
-      return NextResponse.json(
-        {
-          message: "Transaction payment method name must be a non-empty string",
-        },
-        { status: 400 }
-      );
-    }
-
     if (data.trans_amount <= 0) {
       return NextResponse.json(
         { message: "Transaction amount must by distinc of cero" },
@@ -152,25 +143,40 @@ export async function PUT(request) {
       );
     }
 
+    const paymentMethodExists = await db.payment_methods.findMany({
+      where: {
+        pay_method_id: data.trans_payment_method_id
+      }
+    })
+
+    if (paymentMethodExists.length === 0) {
+      return NextResponse.json(
+        { message: "PAyment method does not exist" },
+        { status: 409 }
+      );
+    }
+
     const updatedTransaction = await db.transactions.update({
       where: { trans_id: parseInt(id, 10) },
       data: {
         trans_date: new Date (data.trans_date),
         trans_amount: parseFloat(data.trans_amount),
-        trans_payment_method: data.trans_payment_method.toUpperCase(),
+        trans_payment_method_id: data.trans_payment_method_id,
         trans_description: data.trans_description,
         trans_cat_id: data.trans_cat_id,
         trans_updated_at: new Date()
       },
       include: {
         transaction_category: true,
+        payment_methods: true
       },
     });
 
     const formatedUpdatedTransaction = {
       trans_id: updatedTransaction.trans_id,
-      trans_payment_method: updatedTransaction.trans_payment_method,
       trans_amount: parseFloat(updatedTransaction.trans_amount),
+      trans_payment_method_id: updatedTransaction.trans_payment_method_id,
+      l_pay_method_name: updatedTransaction.payment_methods.pay_method_name,
       trans_cat_id: updatedTransaction.trans_cat_id,
       l_trans_cat_name: updatedTransaction.transaction_category.trans_cat_name,
       trans_description: updatedTransaction.trans_description,
@@ -218,6 +224,7 @@ export async function DELETE(request) {
       where: { trans_id: parseInt(id, 10) },
       include: {
         transaction_category: true,
+        payment_methods: true,
         user: true,
       },
     });
@@ -237,7 +244,8 @@ export async function DELETE(request) {
       trans_id: transactionData.trans_id,
       trans_date: transactionData.trans_date.toISOString().split("T")[0],
       trans_amount: transactionData.trans_amount,
-      trans_payment_method: transactionData.trans_payment_method,
+      trans_payment_method_id: transactionData.trans_payment_method_id,
+      l_pay_method_name: transactionData.payment_methods.pay_method_name,
       trans_description: transactionData.trans_description,
       trans_cat_id: transactionData.trans_cat_id,
       l_trans_type_name: transactionData.transaction_category.trans_cat_name,

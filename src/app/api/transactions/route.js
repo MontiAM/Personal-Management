@@ -7,7 +7,7 @@ export async function POST(request) {
   // Body request example
   // const example = {
   //   trans_amount: 16000,
-  //   trans_payment_method: "TRANSFERENCIA",
+  //   trans_payment_method_id: 1,
   //   trans_cat_id: 2,
   //   trans_description: "Municipalidad, Aguas Cordobesas",
   //   trans_user_id: "montivero.marcio@gmail.com",
@@ -22,9 +22,32 @@ export async function POST(request) {
   //     status: 401
   //   })
   // }
+  const requiredFields = [
+    "trans_amount",
+    "trans_payment_method_id",
+    "trans_cat_id",
+    "trans_user_id",
+    "trans_date",
+  ];
 
   try {
     const data = await request.json();
+
+    for (const field of requiredFields) {
+      if (!data[field]) {
+        return NextResponse.json(
+          { message: `El campo ${field} está vacío o es nulo.` },
+          { status: 400 }
+        );
+      }
+    }
+
+    if (isNaN(data.trans_payment_method_id) || isNaN(data.trans_cat_id)) {
+      return NextResponse.json(
+        { message: 'trans_payment_method_id y trans_cat_id deben ser números.' },
+        { status: 400 }
+      );
+    }
 
     const user = await db.user.findUnique({
       where: { email: data.trans_user_id },
@@ -32,18 +55,6 @@ export async function POST(request) {
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 400 });
-    }
-
-    if (
-      typeof data.trans_payment_method !== "string" ||
-      data.trans_payment_method.trim() === ""
-    ) {
-      return NextResponse.json(
-        {
-          message: "Transaction payment method name must be a non-empty string",
-        },
-        { status: 400 }
-      );
     }
 
     if (typeof data.trans_amount !== "number" || data.trans_amount <= 0) {
@@ -66,9 +77,22 @@ export async function POST(request) {
       );
     }
 
+    const paymentMethodExists = await db.payment_methods.findMany({
+      where: {
+        pay_method_id: data.trans_payment_method_id,
+      },
+    });
+
+    if (paymentMethodExists.length === 0) {
+      return NextResponse.json(
+        { message: "Payment method does not exist" },
+        { status: 409 }
+      );
+    }
+
     const newTransaction = await db.transactions.create({
       data: {
-        trans_payment_method: data.trans_payment_method.toUpperCase(),
+        trans_payment_method_id: data.trans_payment_method_id,
         trans_amount: data.trans_amount,
         trans_cat_id: data.trans_cat_id,
         trans_description: data.trans_description,
@@ -77,11 +101,13 @@ export async function POST(request) {
       },
       include: {
         transaction_category: true,
+        payment_methods: true,
       },
     });
 
     const formatedNewTransaction = {
-      trans_payment_method: newTransaction.trans_payment_method,
+      trans_payment_method_id: newTransaction.trans_payment_method_id,
+      l_pay_method_name: newTransaction.payment_methods.pay_method_name,
       trans_amount: newTransaction.trans_amount,
       trans_cat_id: newTransaction.trans_cat_id,
       l_trans_cat_name: newTransaction.transaction_category.trans_cat_name,
@@ -148,6 +174,7 @@ export async function GET(request) {
         },
         include: {
           transaction_category: true,
+          payment_methods: true,
           user: true,
         },
       });
@@ -155,6 +182,7 @@ export async function GET(request) {
       transactions = await db.transactions.findMany({
         include: {
           transaction_category: true,
+          payment_methods: true,
           user: true,
         },
       });
@@ -164,10 +192,11 @@ export async function GET(request) {
       trans_id: item.trans_id,
       trans_date: item.trans_date.toISOString().split("T")[0],
       trans_amount: item.trans_amount,
-      trans_payment_method: item.trans_payment_method,
       trans_description: item.trans_description,
       trans_cat_id: item.trans_cat_id,
       l_trans_type_name: item.transaction_category.trans_cat_name,
+      trans_payment_method_id: item.trans_payment_method_id,
+      l_pay_method_name: item.payment_methods.pay_method_name,
       l_user_email: item.user.email,
     }));
 
