@@ -63,3 +63,12 @@ CREATE TABLE transactions (
     trans_updated_at TIMESTAMPTZ DEFAULT NOW(),
 	FOREIGN KEY(trans_user_id) REFERENCES "User"(id) ON DELETE CASCADE
 );
+
+CREATE TABLE payment_methods (
+	pay_method_id SERIAL PRIMARY KEY,
+	pay_method_name VARCHAR(50) UNIQUE NOT NULL
+)
+
+ALTER TABLE transactions
+DROP COLUMN trans_payment_method,
+ADD COLUMN trans_payment_method_id INT REFERENCES payment_methods(pay_method_id);

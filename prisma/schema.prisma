@@ -38,18 +38,25 @@ model transaction_category {
   transactions            transactions[]
 }
 
+model payment_methods {
+  pay_method_id   Int            @id @default(autoincrement())
+  pay_method_name String         @unique @db.VarChar(50)
+  transactions    transactions[] @relation("TransactionPaymentMethod")
+}
+
 model transactions {
-  trans_id             Int                  @id @default(autoincrement())
-  trans_date           DateTime             @db.Date
-  trans_amount         Decimal              @db.Decimal(10, 2)
-  trans_payment_method String?              @db.VarChar(50)
-  trans_location       String?              @db.VarChar(100)
-  trans_notes          String?
-  trans_description    String?
-  trans_cat_id         Int
-  trans_user_id        Int
-  trans_created_at     DateTime?            @default(now()) @db.Timestamptz(6)
-  trans_updated_at     DateTime?            @default(now()) @db.Timestamptz(6)
-  user                 User                 @relation(fields: [trans_user_id], references: [id], onDelete: Cascade)
-  transaction_category transaction_category @relation(fields: [trans_cat_id], references: [trans_cat_id])
+  trans_id                Int                  @id @default(autoincrement())
+  trans_date              DateTime             @db.Date
+  trans_amount            Decimal              @db.Decimal(10, 2)
+  trans_location          String?              @db.VarChar(100)
+  trans_notes             String?
+  trans_description       String?
+  trans_cat_id            Int
+  trans_user_id           Int
+  trans_created_at        DateTime?            @default(now()) @db.Timestamptz(6)
+  trans_updated_at        DateTime?            @default(now()) @db.Timestamptz(6)
+  trans_payment_method_id Int?
+  user                    User                 @relation(fields: [trans_user_id], references: [id], onDelete: Cascade)
+  transaction_category    transaction_category @relation(fields: [trans_cat_id], references: [trans_cat_id])
+  payment_methods         payment_methods?     @relation("TransactionPaymentMethod", fields: [trans_payment_method_id], references: [pay_method_id])
 }
