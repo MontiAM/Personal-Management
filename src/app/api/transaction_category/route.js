@@ -42,7 +42,7 @@ export async function POST(request) {
     const newTransCat = await db.transaction_category.create({
       data: {
         trans_cat_name: data.trans_cat_name.toUpperCase(),
-        trans_cat_trans_type_id: data.trans_cat_trans_type_id,
+        trans_cat_trans_type_id: parseInt(data.trans_cat_trans_type_id),
       },
       include: {
         transaction_type: true,
@@ -54,11 +54,11 @@ export async function POST(request) {
       trans_cat_name: newTransCat.trans_cat_name,
       trans_cat_trans_type_id: newTransCat.trans_cat_trans_type_id,
       l_trans_type_name: newTransCat.transaction_type.trans_type_name,
-      trans_cat_status: newTransCat.trans_cat_status,
-      trans_cat_description: newTransCat.trans_cat_description,
-      trans_cat_created_at: newTransCat.trans_cat_created_at
-        .toISOString()
-        .split("T")[0],
+      // trans_cat_status: newTransCat.trans_cat_status,
+      // trans_cat_description: newTransCat.trans_cat_description,
+      // trans_cat_created_at: newTransCat.trans_cat_created_at
+      //   .toISOString()
+      //   .split("T")[0],
     };
 
     return NextResponse.json(
@@ -96,7 +96,7 @@ export async function GET(request) {
       trans_cat_name: cat.trans_cat_name,
       trans_cat_trans_type_id: cat.trans_cat_trans_type_id,
       l_trans_type_name: cat.transaction_type.trans_type_name, 
-      trans_cat_status: cat.trans_cat_status,
+      // trans_cat_status: cat.trans_cat_status,
     }));
 
     return NextResponse.json(

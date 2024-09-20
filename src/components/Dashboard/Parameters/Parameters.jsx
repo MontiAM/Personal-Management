@@ -1,0 +1,20 @@
+import ManageParameter from "./ManageParameter";
+
+export default function Parameters() {
+  return (
+    <>
+      <h1 className="mb-2 text-lg sm:text-xl font-bold text-white">Parameters</h1>
+      
+      <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between w-full gap-4">
+        <ManageParameter
+          title={"Transactions Category"}
+          type="transaction_category"
+        />
+
+        <ManageParameter title={"Transactions Type"} type="transaction_type" />
+
+        <ManageParameter title={"Payments Method"} type="payment_methods" />
+      </div>
+    </>
+  );
+}

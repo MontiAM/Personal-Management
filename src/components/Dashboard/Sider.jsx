@@ -1,6 +1,6 @@
 import { Layout, Menu } from "antd";
 import {
-  PieChartOutlined,
+  ControlOutlined,
   DesktopOutlined,
   FileOutlined,
   AreaChartOutlined
@@ -19,26 +19,26 @@ const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
     >
       <Menu
         theme="dark"
-        defaultSelectedKeys={["2"]}
+        defaultSelectedKeys={["1"]}
         mode="inline"
         className="cursor-pointer relative"
         items={[
-          // {
-          //   key: "1",
-          //   icon: <PieChartOutlined />,
-          //   label: "Charge expenses",
-          //   onClick: () => setViewKey(1),
-          // },
           {
-            key: "2",
+            key: "1",
             icon: <FileOutlined />,
             label: "Daily expenses",
+            onClick: () => setViewKey(1),
+          },
+          {
+            key: "2",
+            icon: <AreaChartOutlined />,
+            label: "Statistics",
             onClick: () => setViewKey(2),
           },
           {
             key: "3",
-            icon: <AreaChartOutlined />,
-            label: "Statistics",
+            icon: <ControlOutlined />,
+            label: "Parameters",
             onClick: () => setViewKey(3),
           },
           {

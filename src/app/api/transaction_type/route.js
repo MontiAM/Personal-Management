@@ -66,9 +66,9 @@ export async function GET(request) {
     const formattedListTransType = listTransType.map((transType) => ({
       trans_type_id: transType.trans_type_id,
       trans_type_name: transType.trans_type_name,
-      trans_type_created_at: transType.trans_type_created_at
-        .toISOString()
-        .split("T")[0], // Formato YYYY-MM-DD
+      // trans_type_created_at: transType.trans_type_created_at
+      //   .toISOString()
+      //   .split("T")[0], 
     }));
 
     return NextResponse.json(
