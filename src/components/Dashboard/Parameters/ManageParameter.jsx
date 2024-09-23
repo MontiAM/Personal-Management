@@ -46,7 +46,8 @@ export default function ManageParameter({ title, type }) {
 
   return (
     <>
-      <div className="bg-gray-950 w-full lg:w-1/3 lg:h-[calc(100vh-7rem)] shadow-lg shadow-gray-900 rounded-lg">
+      {/* <div className="bg-gray-950 w-full lg:w-1/3 lg:h-[calc(100vh-7rem)] shadow-lg shadow-gray-900 rounded-lg"> */}
+      <div className="w-full lg:w-1/3 lg:h-[calc(100vh-7rem)]">
         <div className="flex items-center justify-around mb-4">
           <h1 className="text-lg sm:text-xl font-bold text-white">{title}</h1>
           <button

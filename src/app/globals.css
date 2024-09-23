@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: #080821;
+  --text-color: #ffffff;
+  --secundary: #1677FF;
+  --color-red: #f5222d;
+  --color-green: #52c41a;
+  --background-datepicker-selectrange: #b7b8c8;
+  --background-datepicker-cell: rgba(118, 118, 229, 0.3);
+  --datepicker-outliner: rgba(5, 145, 255, 0.1);
+  --btn-active: #5a5ac6;
+  --btn-inactive: #9898a2;
+  --btn-inactive-hover: #9898a2;
+  --table-line-hover: #7b7b85;
+  --background-white: #ffffff;
+}
+
 body {
   @apply bg-neutral-950;
 }
@@ -26,9 +42,232 @@ body {
   @apply bg-neutral-950;
 }
 
+
+/* Segment  */
+.ant-segmented {
+  background-color: #0f172a !important;
+  color: #6b7280;
+}
+
+.ant-segmented-item:hover:not(.ant-segmented-item-selected):not(
+    .ant-segmented-item-disabled
+  ) {
+  color: #e2e8f0 !important;
+}
+
+/* Statistics Card */
+
+.statistic-card {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center ;
+  @media (max-width: 767px) { 
+      height: 180px; 
+  }
+}
+
+
+.ant-card .ant-card-body {
+  padding: 5px 10px;
+}
+
 .ant-table-wrapper {
+  flex: 1;
+  overflow: auto;
+  .ant-table.ant-table-bordered
+    > .ant-table-container
+    > .ant-table-content
+    > table
+    > tbody
+    > tr
+    > td {
+    background-color: var(--primary);
+  }
+  .ant-table-cell,
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > th,
+  .ant-table-tbody > tr > td,
+  tfoot > tr > th,
+  tfoot > tr > td {
+    position: relative;
+    padding: 10px 10px;
+    overflow-wrap: break-word;
+  }
+  td.ant-table-column-sort {
+    background: var(--secundary);
+  }
+
   .ant-table {
-    table-layout: auto !important; /* Permite que las columnas se ajusten a su contenido */
+    scrollbar-color: var(--secundary) var(--primary);
+  }
+
+  @media (max-width: 1024px) {
+    .ant-table-row {
+      font-size: 14px;
+      height: 35px;
+    }
+    .ant-table-column-title {
+      font-size: 14px;
+    }
+    .ant-table-cell {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ant-table-row {
+      font-size: 12px;
+      height: 32px;
+    }
+    .ant-table-column-title {
+      font-size: 12px;
+    }
+    .ant-table-cell {
+      font-size: 12px;
+    }
+  }
+}
+
+.custom-table {
+  .ant-table {
+    background-color: var(--primary);
+    color: var(--text-color);
+
+    .ant-table-header {
+      background-color: var(--secundary);
+      color: var(--text-color);
+    }
+
+    .ant-table-cell {
+      color: var(--text-color);
+    }
+  }
+
+  .ant-pagination {
+    background-color: var(--primary);
+    color: var(--text-color);
+    border-color: var(--text-color);
+
+    .ant-pagination-item {
+      color: var(--text-color);
+
+      a {
+        color: var(--text-color);
+      }
+    }
+
+    .ant-pagination-options-size-changer {
+      color: var(--text-color);
+
+      .ant-select-selector {
+        background-color: var(--primary);
+        color: var(--text-color);
+      }
+
+      .ant-select-item-option-selected {
+        background-color: var(--secundary);
+        color: var(--text-color);
+      }
+    }
+
+    .ant-pagination-item-active {
+      background-color: var(--secundary);
+      border-color: var(--secundary);
+
+      a {
+        color: inherit;
+      }
+
+      &:hover {
+        border-color: var(--secundary);
+        color: inherit;
+      }
+    }
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      button {
+        color: rgba(255, 255, 255, 0.88);
+        cursor: pointer;
+        user-select: none;
+      }
+    }
+    @media (max-width: 640px) {
+      .ant-pagination-options {
+        display: block !important;
+        width: 1fr;
+      }
+      .ant-pagination-options .ant-select-selector {
+        height: auto !important;
+        overflow: visible !important;
+      }
+    }
+  }
+
+  .ant-table-expanded-row-fixed {
+    background-color: var(--primary);
+  }
+
+  .ant-table-row:hover > .ant-table-cell {
+    background-color: var(--table-line-hover);
+    transition: background-color 0.2s ease;
+  }
+
+  .ant-table-thead {
+    text-align: center;
+
+    th,
+    td {
+      background: var(--secundary) !important;
+      color: var(--text-color);
+    }
+  }
+
+  .ant-table,
+  .ant-table-header,
+  .ant-table-cell,
+  .ant-pagination,
+  .ant-pagination-item,
+  .ant-pagination-options-size-changer {
+    border-radius: 0 !important;
+  }
+
+  .ant-table-container {
+    border: 1px solid var(--text-color);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .ant-select-focused.ant-select-outlined:not(.ant-select-disabled):not(
+      .ant-select-customize-input
+    ):not(.ant-pagination-size-changer) {
+    .ant-select-selector {
+      border-color: var(--secundary);
+    }
+  }
+
+  .ant-select-outlined:not(.ant-select-disabled):not(
+      .ant-select-customize-input
+    ):not(.ant-pagination-size-changer):hover {
+    .ant-select-selector {
+      border-color: var(--secundary);
+    }
+  }
+
+  .ant-table-column-sorter-up.active,
+  .ant-table-column-sorter-down.active {
+    color: var(--background-white);
+  }
+}
+
+
+/* Table */
+/* .ant-table-wrapper {
+  .ant-table {
+    table-layout: auto !important; 
   }
 
   .ant-table-cell,
@@ -70,35 +309,4 @@ body {
       font-size: 12px;
     }
   }
-}
-
-/* Segment  */
-.ant-segmented {
-  background-color: #0f172a !important;
-  color: #6b7280;
-}
-
-.ant-segmented-item:hover:not(.ant-segmented-item-selected):not(
-    .ant-segmented-item-disabled
-  ) {
-  color: #e2e8f0 !important;
-}
-
-/* Statistics Card */
-
-.statistic-card {
-  width: 100%;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center ;
-  @media (max-width: 767px) { 
-      height: 180px; 
-  }
-}
-
-
-.ant-card .ant-card-body {
-  padding: 5px 10px;
-}
+} */

@@ -42,6 +42,7 @@ const TableParameter = ({ dataSource, setDataSource, type, refreshData }) => {
     <>
       {dataSource.length > 0 && (
         <Table
+          className="custom-table"
           rowKey={Object.keys(dataSource[0])[0]}
           columns={columns}
           dataSource={dataSource}
