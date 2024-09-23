@@ -4,7 +4,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { transformParameterColumns } from "@/helpers/helpers";
 import ModalChargeParameter from "./ModalChargeParameter";
 
-const TableParameter = ({ dataSource, setDataSource, type, refreshData }) => {
+const   TableParameter = ({ dataSource, setDataSource, type, refreshData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedParameter, setSelectedParameter] = useState(null);
 

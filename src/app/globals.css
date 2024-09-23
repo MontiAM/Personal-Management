@@ -3,23 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --primary: #080821;
+  --primary: #0a0a0a;
   --text-color: #ffffff;
-  --secundary: #1677FF;
-  --color-red: #f5222d;
-  --color-green: #52c41a;
-  --background-datepicker-selectrange: #b7b8c8;
-  --background-datepicker-cell: rgba(118, 118, 229, 0.3);
-  --datepicker-outliner: rgba(5, 145, 255, 0.1);
-  --btn-active: #5a5ac6;
-  --btn-inactive: #9898a2;
-  --btn-inactive-hover: #9898a2;
+  --secundary: #0f172a;
   --table-line-hover: #7b7b85;
+  --btn-active: #1e293b ;
+  --btn-inactive-hover: #9898a2;
   --background-white: #ffffff;
 }
 
 body {
-  @apply bg-neutral-950;
+  @apply bg-neutral-950; /* #0a0a0a*/
 }
 
 /* Sider  */
@@ -42,10 +36,9 @@ body {
   @apply bg-neutral-950;
 }
 
-
 /* Segment  */
 .ant-segmented {
-  background-color: #0f172a !important;
+  background-color: var(--secundary) !important;
   color: #6b7280;
 }
 
@@ -55,25 +48,34 @@ body {
   color: #e2e8f0 !important;
 }
 
-/* Statistics Card */
+/* Sidebar */
+.ant-menu-item-selected {
+  background-color: var(--btn-active) !important;
+}
 
+/* Button */
+button.bg-blue-500 {
+  background-color: var(--btn-active);
+}
+
+/* Statistics Card */
 .statistic-card {
   width: 100%;
   height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center ;
-  @media (max-width: 767px) { 
-      height: 180px; 
+  align-items: center;
+  @media (max-width: 767px) {
+    height: 180px;
   }
 }
-
 
 .ant-card .ant-card-body {
   padding: 5px 10px;
 }
 
+/* Table */
 .ant-table-wrapper {
   flex: 1;
   overflow: auto;
@@ -262,51 +264,3 @@ body {
     color: var(--background-white);
   }
 }
-
-
-/* Table */
-/* .ant-table-wrapper {
-  .ant-table {
-    table-layout: auto !important; 
-  }
-
-  .ant-table-cell,
-  .ant-table-thead > tr > th,
-  .ant-table-tbody > tr > th,
-  .ant-table-tbody > tr > td,
-  tfoot > tr > th,
-  tfoot > tr > td {
-    position: relative;
-    padding: 8px;
-    overflow-wrap: break-word;
-    @media (max-width: 768px) {
-      padding: 5px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    .ant-table-row {
-      font-size: 14px;
-      height: 35px;
-    }
-    .ant-table-column-title {
-      font-size: 14px;
-    }
-    .ant-table-cell {
-      font-size: 14px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .ant-table-row {
-      font-size: 12px;
-      height: 32px;
-    }
-    .ant-table-column-title {
-      font-size: 12px;
-    }
-    .ant-table-cell {
-      font-size: 12px;
-    }
-  }
-} */

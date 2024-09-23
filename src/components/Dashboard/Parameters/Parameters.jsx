@@ -5,7 +5,8 @@ export default function Parameters() {
     <>
       <h1 className="mb-2 text-lg sm:text-xl font-bold text-white">Parameters</h1>
       
-      <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between w-full gap-4">
+      {/* <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between w-full gap-4"> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
         <ManageParameter
           title={"Transactions Category"}
           type="transaction_category"
