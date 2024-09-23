@@ -17,10 +17,6 @@ export default function ManageParameter({ title, type }) {
     setIsModalOpen(false);
   };
 
-  const handleFilter = () => {
-    refreshData();
-  };
-
   const getData = async() => {
     const res = await fetch(`/api/${type}`);
     const data = await res.json()
@@ -34,7 +30,19 @@ export default function ManageParameter({ title, type }) {
 
   const refreshData = async () => {
     console.log("Refreshing");
+    try {
+      const res = await fetch(
+        `/api/${type}`
+      );
+      const data = await res.json();
+      setDataSource(data.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setDataSource([]);
+    }
   };
+
+
 
   return (
     <>

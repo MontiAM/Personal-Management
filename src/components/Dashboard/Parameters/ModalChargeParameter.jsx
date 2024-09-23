@@ -129,7 +129,6 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
             editValue.trans_cat_trans_type_id
           );
           setValue("l_trans_type_name", editValue.l_trans_type_name);
-          console.log(editValue);
           break;
         case "payment_methods":
           setValue("pay_method_id", editValue.pay_method_id);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Table, Modal } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { transformColumns } from "@/helpers/helpers";
+import { transformParameterColumns } from "@/helpers/helpers";
 import ModalChargeParameter from "./ModalChargeParameter";
 
 const TableParameter = ({ dataSource, setDataSource, type, refreshData }) => {
@@ -36,7 +36,7 @@ const TableParameter = ({ dataSource, setDataSource, type, refreshData }) => {
     setSelectedParameter([]);
   };
 
-  const columns = transformColumns(dataSource, onEdit, onDelete);
+  const columns = transformParameterColumns(dataSource, onEdit, onDelete);
 
   return (
     <>

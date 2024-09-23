@@ -49,7 +49,6 @@ export const transformBalanceColumns = (data) => {
   return mappedColumns;
 };
 
-
 export const transformColumns = (data, onEdit, onDelete) => {
   const columns = getColumns(data);
 
@@ -116,6 +115,93 @@ export const transformColumns = (data, onEdit, onDelete) => {
       return 0;
     },
   }));
+
+  const actionColumns = [
+    {
+      title: "",
+      key: "edit",
+      width: 45,
+      render: (_, record) => (
+        <a
+          onClick={() => onEdit(record)}
+          style={{ color: "blue", cursor: "pointer" }} // Color personalizado para "Editar"
+        >
+          Edit
+        </a>
+      ),
+    },
+    {
+      title: "",
+      key: "delete",
+      width: 50,
+      render: (_, record) => (
+        <a
+          onClick={() => onDelete(record)}
+          style={{ color: "red", cursor: "pointer" }} // Color personalizado para "Eliminar"
+        >
+          Del
+        </a>
+      ),
+    },
+  ];
+
+  if (onEdit && onDelete) {
+    return [...mappedColumns, ...actionColumns];
+  } else return mappedColumns;
+};
+
+export const transformParameterColumns = (data, onEdit, onDelete) => {
+  const columns = getColumns(data);
+
+  const mappedColumns = columns.map((column, index) => {
+    // Si termina en _id, renombrarlo como "ID"
+    const title = column.endsWith("_id")
+      ? "ID"
+      : column
+          .slice(column.indexOf("_") + 1)
+          .replace(/^\w/, (c) => c.toUpperCase());
+
+    return {
+      title,
+      dataIndex: column,
+      sortDirections: ["ascend", "descend"],
+      filterSearch: true,
+      width: column.endsWith("_id") ? 50 : 150,
+      sorter: (a, b) => {
+        const parseDate = (dateStr) => {
+          const [year, month, day] = dateStr.split("-").map(Number);
+          return new Date(year, month - 1, day);
+        };
+
+        const aVal =
+          typeof a[column] === "string" && /^\d{4}-\d{2}-\d{2}$/.test(a[column])
+            ? parseDate(a[column])
+            : typeof a[column] === "string"
+            ? parseFloat(a[column])
+            : a[column];
+
+        const bVal =
+          typeof b[column] === "string" && /^\d{4}-\d{2}-\d{2}$/.test(b[column])
+            ? parseDate(b[column])
+            : typeof b[column] === "string"
+            ? parseFloat(b[column])
+            : b[column];
+
+        if (!isNaN(aVal) && !isNaN(bVal)) {
+          return aVal - bVal;
+        }
+        if (aVal instanceof Date && bVal instanceof Date) {
+          return aVal - bVal;
+        }
+        if (typeof a[column] === "string" && typeof b[column] === "string") {
+          return a[column].localeCompare(b[column]);
+        }
+        return 0;
+      },
+      // Si es la primera columna, agregar orden por defecto ascendente
+      ...(index === 0 ? { defaultSortOrder: "ascend" } : {}),
+    };
+  });
 
   const actionColumns = [
     {
