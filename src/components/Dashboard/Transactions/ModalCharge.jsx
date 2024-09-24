@@ -6,6 +6,8 @@ import SelectTransaction from "./SelectTransaction";
 function ModalCharge({ onClose, refreshData, expense, filterType }) {
   const { data: session } = useSession();
   const [charge, setCharge] = useState("expenses");
+  const [transactionsCategories, setTransactionsCategories] = useState([]);
+  const [transactionsType, setTransactionsType] = useState([]);
 
   const {
     register,
@@ -83,6 +85,27 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
     }
   });
 
+  const getTransactionType = async () => {
+    const res = await fetch("/api/transaction_type");
+    const data = await res.json();
+    setTransactionsType(data.data);
+  };
+
+  useEffect(() => {
+    getTransactionType();
+  }, []);
+
+  const getTransactionCategory = async (typeId) => {
+    const res = await fetch(`/api/transaction_category/by_type/${typeId}`);
+    const data = await res.json();
+    setTransactionsCategories(data.data);
+  };
+
+  const handleSelect = (e) => {
+    const selectedTypeId = e.target.value;
+    getTransactionCategory(selectedTypeId);
+  };
+
   useEffect(() => {
     if (expense) {
       setCharge(filterType);
@@ -113,33 +136,85 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
       <form action="" onSubmit={onSubmit}>
         <h1 className="text-slate-200 font-bold text-4xl mb-4 col-span-full">
           {expense ? "Edit" : "Charge"} transaction
-          <SelectTransaction
+          {/* <SelectTransaction
             setCharge={setCharge}
             editValue={expense ? filterType : null}
-          />
+          /> */}
         </h1>
 
         <div className="flex flex-col">
-          <label htmlFor="date" className="text-slate-500 mb-2 block text-sm">
-            Date:
+          <label
+            htmlFor="trans_cat_trans_type_id"
+            className="text-slate-500 mb-2 block text-sm"
+          >
+            Transaction type:
           </label>
-          <input
-            type="date"
-            placeholder="DD/MM/YYYY"
-            {...register("date", {
-              required: {
-                value: true,
-                message: "Date is required",
-              },
-            })}
-            className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
-          />
-          {errors.date && (
-            <span className="text-red-500 text-sm">{errors.date.message}</span>
+          <div className="pb-2 flex items-center space-x-2">
+            <select
+              {...register("trans_cat_trans_type_id", {
+                required: {
+                  value: true,
+                  message: "Transaction type is required",
+                },
+                onChange: (e) => {
+                  handleSelect(e);
+                },
+              })}
+              className="p-3 rounded bg-slate-900 text-slate-300 w-full"
+            >
+              {transactionsType &&
+                transactionsType.map((type) => (
+                  <option key={type.trans_type_id} value={type.trans_type_id}>
+                    {type.trans_type_name}
+                  </option>
+                ))}
+            </select>
+          </div>
+          {errors.trans_cat_trans_type_id && (
+            <span className="text-red-500 text-sm">
+              {errors.trans_cat_trans_type_id.message}
+            </span>
           )}
         </div>
 
+
         <div className="flex flex-col">
+          <label
+            htmlFor="trans_cat_id"
+            className="text-slate-500 mb-2 block text-sm"
+          >
+            Transaction category:
+          </label>
+          <div className="pb-2 flex items-center space-x-2">
+            <select
+              {...register("trans_cat_id", {
+                required: {
+                  value: true,
+                  message: "Transaction category is required",
+                },
+                onChange: (e) => {
+                  handleSelect(e);
+                },
+              })}
+              className="p-3 rounded bg-slate-900 text-slate-300 w-full"
+            >
+              {transactionsCategories &&
+                transactionsCategories.map((type) => (
+                  <option key={type.trans_cat_id} value={type.trans_cat_id}>
+                    {type.trans_cat_name}
+                  </option>
+                ))}
+            </select>
+          </div>
+          {errors.trans_cat_id && (
+            <span className="text-red-500 text-sm">
+              {errors.trans_cat_id.message}
+            </span>
+          )}
+        </div>
+
+
+        {/* <div className="flex flex-col">
           <label
             htmlFor="category"
             className="text-slate-500 mb-2 block text-sm"
@@ -178,6 +253,26 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
             <span className="text-red-500 text-sm">
               {errors.category.message}
             </span>
+          )}
+        </div> */}
+
+        {/* <div className="flex flex-col">
+          <label htmlFor="date" className="text-slate-500 mb-2 block text-sm">
+            Date:
+          </label>
+          <input
+            type="date"
+            placeholder="DD/MM/YYYY"
+            {...register("date", {
+              required: {
+                value: true,
+                message: "Date is required",
+              },
+            })}
+            className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+          />
+          {errors.date && (
+            <span className="text-red-500 text-sm">{errors.date.message}</span>
           )}
         </div>
 
@@ -271,7 +366,7 @@ function ModalCharge({ onClose, refreshData, expense, filterType }) {
           {errors.notes && (
             <span className="text-red-500 text-sm">{errors.notes.message}</span>
           )}
-        </div>
+        </div> */}
 
         <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2 col-span-full">
           {expense ? "Edit" : "Add"}{" "}
