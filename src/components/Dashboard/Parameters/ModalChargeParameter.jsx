@@ -173,7 +173,7 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
                     message: "Transaction category is required",
                   },
                 })}
-                className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+                className="p-2 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
               />
               {errors.trans_cat_name && (
                 <span className="text-red-500 text-sm">
@@ -197,7 +197,7 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
                       message: "Transaction type is required",
                     },
                   })}
-                  className="p-3 rounded bg-slate-900 text-slate-300 w-full"
+                  className="p-2 rounded bg-slate-900 text-slate-300 w-full"
                 >
                   {transactionsType &&
                     transactionsType.map((type) => (
@@ -233,7 +233,7 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
                     message: "Transaction category is required",
                   },
                 })}
-                className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+                className="p-2 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
               />
               {errors.trans_cat_description && (
                 <span className="text-red-500 text-sm">
@@ -260,7 +260,7 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
                     message: "Transaction name is required",
                   },
                 })}
-                className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+                className="p-2 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
               />
               {errors.trans_type_name && (
                 <span className="text-red-500 text-sm">
@@ -287,7 +287,7 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
                     message: "Payment method is required",
                   },
                 })}
-                className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+                className="p-2 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
               />
               {errors.pay_method_name && (
                 <span className="text-red-500 text-sm">
@@ -297,7 +297,7 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
             </div>
           </>
         ) : null}
-        <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2 col-span-full">
+        <button className="w-full rounded-lg text-white bg-blue-500 p-2 mt-2 col-span-full">
           Add
         </button>
       </form>
