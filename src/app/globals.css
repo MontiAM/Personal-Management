@@ -32,9 +32,14 @@ body {
 }
 
 /* Modal */
-.ant-modal .ant-modal-content {
-  @apply bg-neutral-950;
-}
+.ant-modal {
+  .ant-modal-content {
+    @apply bg-neutral-950;
+  }
+    top: 20px;
+    padding-bottom: 0px;
+} 
+
 
 /* Segment  */
 .ant-segmented {
