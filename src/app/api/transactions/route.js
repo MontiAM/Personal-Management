@@ -173,7 +173,11 @@ export async function GET(request) {
           },
         },
         include: {
-          transaction_category: true,
+          transaction_category: {
+            include: {
+              transaction_type: true,  
+            },
+          },
           payment_methods: true,
           user: true,
         },
@@ -181,7 +185,11 @@ export async function GET(request) {
     } else {
       transactions = await db.transactions.findMany({
         include: {
-          transaction_category: true,
+          transaction_category: {
+            include: {
+              transaction_type: true,  
+            },
+          },
           payment_methods: true,
           user: true,
         },
@@ -193,8 +201,10 @@ export async function GET(request) {
       trans_date: item.trans_date.toISOString().split("T")[0],
       trans_amount: item.trans_amount,
       trans_description: item.trans_description,
+      l_trans_type_id: item.transaction_category.transaction_type.trans_type_id,
+      l_trans_type_name: item.transaction_category.transaction_type.trans_type_name,
       trans_cat_id: item.trans_cat_id,
-      l_trans_type_name: item.transaction_category.trans_cat_name,
+      l_trans_cat_name: item.transaction_category.trans_cat_name,
       trans_payment_method_id: item.trans_payment_method_id,
       l_pay_method_name: item.payment_methods.pay_method_name,
       l_user_email: item.user.email,

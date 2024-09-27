@@ -35,6 +35,7 @@ body {
 .ant-modal {
   .ant-modal-content {
     @apply bg-neutral-950;
+    /* width: 50px; */
   }
     top: 20px;
     padding-bottom: 0px;
@@ -100,7 +101,8 @@ button.bg-blue-500 {
   tfoot > tr > th,
   tfoot > tr > td {
     position: relative;
-    padding: 10px 10px;
+    padding: 5px 5px;
+    font-size: 12px;
     overflow-wrap: break-word;
   }
   td.ant-table-column-sort {

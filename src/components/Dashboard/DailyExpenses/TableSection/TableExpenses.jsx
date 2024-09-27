@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Table, Modal } from "antd";
-import { transformColumns } from "@/helpers/helpers";
+import { transformTransactionsColumns } from "@/helpers/helpers";
 import { CloseOutlined } from "@ant-design/icons";
 import ModalCharge from "../../Transactions/ModalCharge";
 
@@ -11,17 +11,17 @@ const TableExpenses = ({
   filterType,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedExpense, setSelectedExpense] = useState(null);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
 
   const onEdit = (record) => {
     setIsModalOpen(true);
-    setSelectedExpense(record);
+    setSelectedTransaction(record);
   };
 
   const onDelete = async (record) => {
-    if (filterType === "expenses") {
+    if (record) {
       try {
-        const res = await fetch(`/api/expenses/${record.expense_id}`, {
+        const res = await fetch(`/api/transactions/${record.trans_id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -29,25 +29,7 @@ const TableExpenses = ({
         });
         if (res.ok) {
           setDataSource((prevData) =>
-            prevData.filter((item) => item.expense_id !== record.expense_id)
-          );
-          console.log("Eliminando...", record);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (filterType === "incomes") {
-      try {
-        const res = await fetch(`/api/incomes/${record.income_id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (res.ok) {
-          setDataSource((prevData) =>
-            prevData.filter((item) => item.income_id !== record.income_id)
+            prevData.filter((item) => item.trans_id !== record.trans_id)
           );
           console.log("Eliminando...", record);
         }
@@ -57,32 +39,23 @@ const TableExpenses = ({
     }
   };
 
-  const columns = transformColumns(dataSource, onEdit, onDelete);
+  const columns = transformTransactionsColumns(dataSource, onEdit, onDelete);
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    setSelectedExpense([]);
+    setSelectedTransaction([]);
   };
 
   return (
     <>
       <Table
+        className="custom-table"
         columns={columns}
         dataSource={dataSource}
         expandable={{
-          expandedRowRender: (record) => (
-            <p
-              style={{
-                margin: 0,
-              }}
-            >
-              {record[`${filterType.slice(0, -1)}_description`] +
-                " - " +
-                record[`${filterType.slice(0, -1)}_notes`]}
-            </p>
-          ),
+          expandedRowRender: (record) => <p>{record.trans_description} - {record.l_trans_type_name}</p>,
         }}
-        rowKey={`${filterType.slice(0, -1)}_id`}
+        rowKey={"trans_id"}
         scroll={{ x: "100vh", y: "calc(100vh - 20rem)" }}
         bordered
         pagination={false}
@@ -96,8 +69,7 @@ const TableExpenses = ({
         <ModalCharge
           onClose={handleCancel}
           refreshData={refreshData}
-          expense={selectedExpense}
-          filterType={filterType}
+          editValue={selectedTransaction}
         />
       </Modal>
     </>

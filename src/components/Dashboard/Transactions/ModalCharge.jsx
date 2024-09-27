@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import SelectTransaction from "./SelectTransaction";
 
-function ModalCharge({ onClose, refreshData, expense, filterType, edit }) {
+function ModalCharge({ onClose, refreshData, editValue }) {
   const { data: session } = useSession();
-  const [charge, setCharge] = useState("expenses");
   const [transactionsCategories, setTransactionsCategories] = useState([]);
   const [transactionsType, setTransactionsType] = useState([]);
   const [patmentMethod, setPatmentMethod] = useState([]);
@@ -20,9 +19,9 @@ function ModalCharge({ onClose, refreshData, expense, filterType, edit }) {
 
   const onSubmit = handleSubmit(async (data) => {
 
-    const method = edit ? "PUT" : "POST";
-    const url = edit
-      ? `/api/transactions/${edit.expense_id}`
+    const method = editValue ? "PUT" : "POST";
+    const url = editValue
+      ? `/api/transactions/${editValue.trans_id}`
       : "/api/transactions";
 
     const res = await fetch(url, {
@@ -59,7 +58,6 @@ function ModalCharge({ onClose, refreshData, expense, filterType, edit }) {
   const getPaymentMethod = async () => {
     const res = await fetch("/api/payment_methods");
     const data = await res.json();
-    console.log(data.data);
 
     setPatmentMethod(data.data);
   };
@@ -70,46 +68,37 @@ function ModalCharge({ onClose, refreshData, expense, filterType, edit }) {
     setTransactionsCategories(data.data);
   };
 
-  useEffect(() => {
-    getTransactionType();
-    getPaymentMethod();
-  }, []);
-
   const handleSelect = (e) => {
     const selectedTypeId = e.target.value;
     getTransactionCategory(selectedTypeId);
   };
 
   useEffect(() => {
-    if (expense) {
-      setCharge(filterType);
-      if (filterType === "expenses") {
-        setValue("username", expense.user.email);
-        setValue("date", expense.expense_date);
-        setValue("category", expense.expense_category);
-        setValue("description", expense.expense_description);
-        setValue("amount", expense.expense_amount);
-        setValue("payment_method", expense.expense_payment_method);
-        setValue("notes", expense.expense_notes);
-      } else if (filterType === "incomes") {
-        console.log(expense);
-
-        setValue("username", expense.user.email);
-        setValue("date", expense.income_date);
-        setValue("category", expense.income_category);
-        setValue("description", expense.income_description);
-        setValue("amount", expense.income_amount);
-        setValue("payment_method", expense.income_source);
-        setValue("notes", expense.income_notes);
-      }
+    getTransactionType();
+    getPaymentMethod();
+  }, []);
+  useEffect(() => {
+    if (editValue && transactionsCategories.length > 0) {
+      setValue("trans_cat_trans_type_id", editValue.l_trans_type_id);
+      setValue("trans_cat_id", editValue.trans_cat_id);
+      setValue("trans_date", editValue.trans_date);
+      setValue("trans_amount", editValue.trans_amount);
+      setValue("trans_description", editValue.trans_description);
+      setValue("trans_payment_method_id", editValue.trans_payment_method_id);
     }
-  }, [expense, setValue]);
+  }, [editValue, transactionsCategories, setValue]);
+
+  useEffect(() => {
+    if (editValue && editValue.l_trans_type_id) {
+      getTransactionCategory(editValue.l_trans_type_id);
+    }
+  }, [editValue]);
 
   return (
     <>
       <form action="" onSubmit={onSubmit}>
         <h1 className="text-slate-200 font-bold text-3xl mb-4 col-span-full">
-          {expense ? "Edit" : "Charge"} transaction
+          {editValue ? "Edit" : "Charge"} transaction
         </h1>
 
         <div className="flex flex-col">
