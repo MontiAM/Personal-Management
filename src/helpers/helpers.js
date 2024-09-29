@@ -26,13 +26,11 @@ export const transformBalanceColumns = (data) => {
         const aValue = a[column];
         const bValue = b[column];
 
-       
         if (isNumeric(aValue) && isNumeric(bValue)) {
           return aValue - bValue;
         }
 
         if (isYearMonthFormat(aValue) && isYearMonthFormat(bValue)) {
-         
           const parseYearMonth = (str) => {
             const [year, month] = str.split("/").map(Number);
             return new Date(year, month - 1);
@@ -54,12 +52,23 @@ export const transformParameterColumns = (data, onEdit, onDelete) => {
 
   const mappedColumns = columns.map((column, index) => {
     // Si termina en _id, renombrarlo como "ID"
-    const title = column.endsWith("_id")
-      ? "ID"
-      : column
-          .slice(column.indexOf("_") + 1)
-          .replace(/^\w/, (c) => c.toUpperCase());
-
+    // const title = column.endsWith("_id")
+    //   ? "ID"
+    //   : column
+    //       .slice(column.indexOf("_") + 1)
+    //       .replace(/^\w/, (c) => c.toUpperCase());
+    const title =
+      column === "pay_method_name"
+        ? "Metodo de pago"
+        : column === "trans_type_name"
+        ? "Tipo transaccion"
+        : column === "trans_cat_name"
+        ? "Categoria"
+        : column === "l_trans_type_name"
+        ? "Tipo transaccion"
+        : column.endsWith("_id")
+        ? "ID"
+        : null;
     return {
       title,
       dataIndex: column,
@@ -97,7 +106,6 @@ export const transformParameterColumns = (data, onEdit, onDelete) => {
         }
         return 0;
       },
-      // Si es la primera columna, agregar orden por defecto ascendente
       ...(index === 0 ? { defaultSortOrder: "ascend" } : {}),
     };
   });
@@ -139,9 +147,6 @@ export const transformParameterColumns = (data, onEdit, onDelete) => {
 export const transformTransactionsColumns = (data, onEdit, onDelete) => {
   const columns = getColumns(data);
 
-  console.log(columns);
-  
-
   const visibleColumns = columns.filter(
     (column) =>
       column !== "created_at" &&
@@ -150,14 +155,22 @@ export const transformTransactionsColumns = (data, onEdit, onDelete) => {
       column !== "trans_payment_method_id" &&
       column !== "l_trans_type_id" &&
       column !== "trans_id" &&
+      column !== "trans_description" &&
       column !== "l_trans_type_name" &&
       column !== "l_user_email"
   );
 
   const mappedColumns = visibleColumns.map((column) => ({
-    title: column
-      .slice(column.indexOf("_") + 1)
-      .replace(/^\w/, (c) => c.toUpperCase()),
+    title:
+      column === "trans_date"
+        ? "Fecha"
+        : column === "trans_amount"
+        ? "Monto"
+        : column === "l_trans_cat_name"
+        ? "Categoria"
+        : column === "l_pay_method_name"
+        ? "Metodo de Pago"
+        : null,
     dataIndex: column,
     sortDirections: ["ascend", "descend"],
     filterSearch: true,
@@ -198,6 +211,7 @@ export const transformTransactionsColumns = (data, onEdit, onDelete) => {
       }
       return 0;
     },
+    ...(column === "Fecha" && { defaultSortOrder: "descend" }),
   }));
 
   const actionColumns = [
@@ -233,4 +247,3 @@ export const transformTransactionsColumns = (data, onEdit, onDelete) => {
     return [...mappedColumns, ...actionColumns];
   } else return mappedColumns;
 };
-
