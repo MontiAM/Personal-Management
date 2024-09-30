@@ -28,15 +28,18 @@ function TableSection() {
   }
 
   const refreshData = async () => {
+    console.log("Refreshing...");    
+    
     if (selectedDate) {
       const startOfMonth = selectedDate.startOf("month").format("YYYY-MM-DD");
       const endOfMonth = selectedDate.endOf("month").format("YYYY-MM-DD");
+      
       try {
         const res = await fetch(
-          `/api/${selectFilter}?fecha_desde=${startOfMonth}&fecha_hasta=${endOfMonth}`
+          `/api/transactions?fecha_desde=${startOfMonth}&fecha_hasta=${endOfMonth}`
         );
-        const data = await res.json();
-        setDataSource(data);
+        const data = await res.json();        
+        setDataSource(data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
         setDataSource([]);
