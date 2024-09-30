@@ -40,12 +40,12 @@ const ChartSection = ({ fetchDate }) => {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-        <ChartContainer
+        {/* <ChartContainer
           title="Gráfico de Ventas"
           description="Ventas del último trimestre"
         >
           <Chart1 />
-        </ChartContainer>
+        </ChartContainer> */}
         <ChartContainer
           title="Gráfico de Ventas"
           description="Ventas del último trimestre"
@@ -53,9 +53,9 @@ const ChartSection = ({ fetchDate }) => {
           <PieChart1 dataSource={categoryExpenses.currentPeriod}/>
         </ChartContainer>
 
-        <ChartContainer title="Gastos por categoría">
+        {/* <ChartContainer title="Gastos por categoría">
           <Chart2 dataSource={categoryExpenses} />
-        </ChartContainer>
+        </ChartContainer> */}
       </div>
     </>
   );

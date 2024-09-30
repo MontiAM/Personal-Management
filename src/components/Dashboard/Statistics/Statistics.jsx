@@ -39,11 +39,11 @@ const Statistics = () => {
         </div>
       </div>
 
-      {/* <div className="bg-gray-950 lg:h-[calc(100vh-11rem)] shadow-lg shadow-gray-900 rounded-lg p-2">
+      {/* <div className="bg-gray-950 lg:h-[calc(100vh-11rem)] shadow-lg shadow-gray-900 rounded-lg p-2"> */}
           <div className="pt-4 w-full">
             <ChartSection fetchDate={filterDate}/>
           </div>
-        </div> */}
+        {/* </div> */}
 
       {/* <div className="w-full lg:w-1/3 lg:pl-4">
         <TableBalanceSection />

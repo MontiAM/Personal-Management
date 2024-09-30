@@ -1,11 +1,11 @@
 const ChartContainer = ({ title, description, children }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 w-full h-full">
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
-        {description && <p className="text-gray-600">{description}</p>}
+    <div className="w-full h-full flex flex-col items-center justify-center">
+      <div className="mb-4 text-center">
+        <h2 className="text-lg sm:text-xl font-bold text-white">{title}</h2>
+        {description && <p className="text-white">{description}</p>}
       </div>
-      <div className="h-64 lg:h-[calc(100vh-35rem)]">
+      <div className="h-64 lg:h-[calc(100vh-20rem)] w-full flex justify-center items-center">
         {children}
       </div>
     </div>

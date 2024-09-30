@@ -7,7 +7,7 @@
   --text-color: #ffffff;
   --secundary: #0f172a;
   --table-line-hover: #7b7b85;
-  --btn-active: #1e293b ;
+  --btn-active: #1e293b;
   --btn-inactive-hover: #9898a2;
   --background-white: #ffffff;
 }
@@ -37,10 +37,9 @@ body {
     @apply bg-neutral-950;
     /* width: 50px; */
   }
-    top: 20px;
-    padding-bottom: 0px;
-} 
-
+  top: 20px;
+  padding-bottom: 0px;
+}
 
 /* Segment  */
 .ant-segmented {
@@ -66,18 +65,29 @@ button.bg-blue-500 {
 
 /* Statistics Card */
 .statistic-card {
+  background-color: var(--secundary);
   width: 100%;
   height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .ant-statistic .ant-statistic-content {
+    color: var(--text-color);
+  }
+
+  .ant-progress.ant-progress-circle .ant-progress-text {
+    color: var(--text-color);
+  }
+  
+  .ant-typography {
+    color: var(--text-color);
+  }
+
   @media (max-width: 767px) {
     height: 180px;
   }
-}
-.ant-card .ant-card-body {
-  padding: 5px 10px;
 }
 
 /* Table */
