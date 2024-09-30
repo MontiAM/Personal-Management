@@ -211,7 +211,7 @@ export const transformTransactionsColumns = (data, onEdit, onDelete) => {
       }
       return 0;
     },
-    ...(column === "Fecha" && { defaultSortOrder: "descend" }),
+    ...(column === "trans_date" && { defaultSortOrder: "descend" }),
   }));
 
   const actionColumns = [
