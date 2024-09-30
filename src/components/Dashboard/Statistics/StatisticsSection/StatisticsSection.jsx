@@ -2,18 +2,26 @@ import { useEffect, useState } from "react";
 import StatisticCard from "./StatisticsCard";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import getPreviousMonthRange from "@/helpers/getPreviousMonthRange";
 
 dayjs.extend(customParseFormat);
 
 function StatisticsSection({ fetchDate }) {
-  const [totalIncomeAmount, setTotalIncomeAmount] = useState(0);
-  const [totalExpenseAmount, setTotalExpenseAmount] = useState(0);
+  const [totals, setTotals] = useState([]);
+  const [prevTotals, setPrevTotals] = useState([]);
 
-  const getPercentage = (current, previous) => {
+  const getPercentage = (current, previous) => {    
     if (previous === 0 || isNaN(previous)) {
       return 0;
     }
     return Math.round(((current - previous) * 100) / previous);
+  };
+
+  const findByClasif = (totals, tipo) => {
+    const resultado = totals.find(
+      (transaccion) => transaccion.trans_type_classif === tipo
+    );
+    return resultado ? resultado.total_amount : 0;
   };
 
   useEffect(() => {
@@ -21,10 +29,10 @@ function StatisticsSection({ fetchDate }) {
       const startOfMonth = fetchDate.startOf("month").format("YYYY-MM-DD");
       const endOfMonth = fetchDate.endOf("month").format("YYYY-MM-DD");
 
-      const geTotalIncomeAmount = async (startDate, endDate) => {
+      const getTotal = async (startDate, endDate) => {
         try {
           const res = await fetch(
-            `/api/statistics/totalIncomes?fecha_desde=${startDate}&fecha_hasta=${endDate}`
+            `/api/transactionsStatistics/groupByTypeClasif?fecha_desde=${startDate}&fecha_hasta=${endDate}`
           );
           const data = await res.json();
           return data;
@@ -33,12 +41,14 @@ function StatisticsSection({ fetchDate }) {
           return null;
         }
       };
-      const geTotalExpenseAmount = async (startDate, endDate) => {
+
+      const getPReviousTotal = async (startDate, endDate) => {
+        const prevDate = getPreviousMonthRange(startDate);
         try {
           const res = await fetch(
-            `/api/statistics/totalExpenses?fecha_desde=${startDate}&fecha_hasta=${endDate}`
+            `/api/transactionsStatistics/groupByTypeClasif?fecha_desde=${prevDate.startDate}&fecha_hasta=${prevDate.endDate}`
           );
-          const data = await res.json();
+          const data = await res.json();          
           return data;
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -47,17 +57,10 @@ function StatisticsSection({ fetchDate }) {
       };
 
       const fetchData = async () => {
-        const resTotalIncomesAmount = await geTotalIncomeAmount(
-          startOfMonth,
-          endOfMonth
-        );
-        const resTotalExpensesAmount = await geTotalExpenseAmount(
-          startOfMonth,
-          endOfMonth
-        );
-
-        setTotalIncomeAmount(resTotalIncomesAmount);
-        setTotalExpenseAmount(resTotalExpensesAmount);
+        const resTotals = await getTotal(startOfMonth, endOfMonth);
+        const prevResTotals = await getPReviousTotal(startOfMonth, endOfMonth);        
+        setTotals(resTotals.data);
+        setPrevTotals(prevResTotals.data);
       };
 
       fetchData();
@@ -68,25 +71,28 @@ function StatisticsSection({ fetchDate }) {
     <>
       <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4">
         <StatisticCard
-          totalAmount={totalIncomeAmount.currentPeriod}
+          totalAmount={findByClasif(totals, "INGRESO")}
           percentageChange={getPercentage(
-            totalIncomeAmount.currentPeriod,
-            totalIncomeAmount.previousPeriod
+            findByClasif(totals, "INGRESO"),
+            findByClasif(prevTotals, "INGRESO")
           )}
           type="income"
           categoryName={"Total Ingresos"}
         />
         <StatisticCard
-          totalAmount={totalExpenseAmount.currentPeriod}
+          totalAmount={findByClasif(totals, "GASTO")}
           percentageChange={getPercentage(
-            totalExpenseAmount.currentPeriod,
-            totalExpenseAmount.previousPeriod
+            findByClasif(totals, "GASTO"),
+            findByClasif(prevTotals, "GASTO")
           )}
           categoryName={"Total Gastos"}
         />
         <StatisticCard
-          totalAmount={6000}
-          percentageChange={-5}
+          totalAmount={findByClasif(totals, "AHORRO")}
+          percentageChange={getPercentage(
+            findByClasif(totals, "AHORRO"),
+            findByClasif(prevTotals, "AHORRO")
+          )}
           categoryName={"Ahorro"}
         />
       </div>

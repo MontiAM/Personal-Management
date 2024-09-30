@@ -33,7 +33,7 @@ export async function GET(request) {
         WHEN tt.trans_type_classification = 'G' THEN 'GASTO'
         WHEN tt.trans_type_classification = 'I' THEN 'INGRESO'
         ELSE 'OTRO'  -- Optional: Handle any unexpected values
-        END AS classification_label,        SUM(t.trans_amount) AS total_amount
+        END AS trans_type_classif,        SUM(t.trans_amount) AS total_amount
       FROM 
         transactions t
       JOIN 
