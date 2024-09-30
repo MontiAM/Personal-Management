@@ -39,6 +39,9 @@ CREATE TABLE transaction_type (
     trans_type_updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+ALTER TABLE transaction_type
+ADD COLUMN trans_type_classification CHAR(1);
+
 CREATE TABLE transaction_category (
     trans_cat_id SERIAL PRIMARY KEY,
     trans_cat_name VARCHAR(100) NOT NULL,  -- Ej: Alquiler, Sueldo, etc.

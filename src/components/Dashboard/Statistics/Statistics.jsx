@@ -36,9 +36,9 @@ const Statistics = () => {
           <div className="w-full">
             <StatisticsSection fetchDate={filterDate} />
           </div>
-          <div className="pt-4 w-full">
+          {/* <div className="pt-4 w-full">
             <ChartSection fetchDate={filterDate}/>
-          </div>
+          </div> */}
         </div>
       </div>
 

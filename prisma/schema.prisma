@@ -19,11 +19,12 @@ model User {
 }
 
 model transaction_type {
-  trans_type_id         Int                    @id @default(autoincrement())
-  trans_type_name       String                 @db.VarChar(50)
-  trans_type_created_at DateTime?              @default(now()) @db.Timestamptz(6)
-  trans_type_updated_at DateTime?              @default(now()) @db.Timestamptz(6)
-  transaction_category  transaction_category[]
+  trans_type_id             Int                    @id @default(autoincrement())
+  trans_type_name           String                 @db.VarChar(50)
+  trans_type_created_at     DateTime?              @default(now()) @db.Timestamptz(6)
+  trans_type_updated_at     DateTime?              @default(now()) @db.Timestamptz(6)
+  trans_type_classification String?                @db.Char(1)
+  transaction_category      transaction_category[]
 }
 
 model transaction_category {
@@ -59,4 +60,32 @@ model transactions {
   user                    User                 @relation(fields: [trans_user_id], references: [id], onDelete: Cascade)
   transaction_category    transaction_category @relation(fields: [trans_cat_id], references: [trans_cat_id])
   payment_methods         payment_methods?     @relation("TransactionPaymentMethod", fields: [trans_payment_method_id], references: [pay_method_id])
+}
+
+model daily_expenses {
+  expense_id             Int      @id @default(autoincrement())
+  expense_date           DateTime @db.Date
+  expense_category       String   @db.VarChar(50)
+  expense_description    String?
+  expense_amount         Decimal  @db.Decimal(10, 2)
+  expense_payment_method String?  @db.VarChar(50)
+  expense_location       String?  @db.VarChar(100)
+  expense_notes          String?
+  user_id                Int
+  created_at             DateTime @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model daily_incomes {
+  income_id          Int      @id @default(autoincrement())
+  income_date        DateTime @db.Date
+  income_category    String   @db.VarChar(50)
+  income_description String?
+  income_amount      Decimal  @db.Decimal(10, 2)
+  income_source      String?  @db.VarChar(50)
+  income_location    String?  @db.VarChar(100)
+  income_notes       String?
+  user_id            Int
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime @default(now()) @db.Timestamptz(6)
 }
