@@ -63,8 +63,3 @@ Sigue estos pasos para instalar y ejecutar la aplicación en tu entorno local:
 ## Uso
 
 Una vez que la aplicación esté en funcionamiento, puedes registrarte como nuevo usuario o iniciar sesión si ya tienes una cuenta. Desde el panel principal, podrás agregar, editar y eliminar tus gastos e ingresos. También podrás visualizar tus datos financieros en gráficos para un análisis más fácil.
-
-### Notas:
-
-- Asegúrate de que las secciones estén bien organizadas con títulos y subtítulos.
-- Verifica que los comandos de terminal estén correctamente formateados con bloques de código.
