@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Personal-Management
 
-## Getting Started
+**Personal-Management** es una aplicación web diseñada para la gestión eficiente de gastos e ingresos. Permite a los usuarios llevar un control detallado de sus finanzas personales, facilitando la toma de decisiones financieras informadas.
 
-First, run the development server:
+## Tecnologías Utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Next.js**: Framework de React para la construcción de aplicaciones web.
+- **Prisma**: ORM (Object-Relational Mapping) para la gestión de bases de datos.
+- **PostgreSQL**: Sistema de gestión de bases de datos relacional.
+- **Ant Design**: Biblioteca de componentes para crear interfaces de usuario elegantes.
+- **Tailwind CSS**: Framework CSS para estilos personalizados y responsivos.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Características
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Registro e inicio de sesión de usuarios.
+- Registro de gastos e ingresos con categorías personalizables.
+- Visualización de reportes gráficos sobre el estado financiero.
+- Interfaz intuitiva y responsiva.
+- Integración con bases de datos PostgreSQL para el almacenamiento de datos.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Instalación
 
-## Learn More
+Sigue estos pasos para instalar y ejecutar la aplicación en tu entorno local:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clona el repositorio:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone https://github.com/MontiAM/Personal-Management.git
+   cd Personal-Management
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. **Instala las dependencias:**
 
-## Deploy on Vercel
+   ```bash
+    npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Configura las variables de entorno: Crea un archivo .env en la raíz del proyecto y agrega las siguientes variables:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+    DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/nombre_de_la_base_de_datos"
+    NEXTAUTH_URL="http://localhost:3000"
+    NEXTAUTH_SECRET="tu_secreto_aqui"
+   ```
+
+4. **Ejecuta las migraciones:**
+
+   ```bash
+    npx prisma migrate dev
+   ```
+
+5. **Inicia la aplicación:**
+
+   ```bash
+    npm run dev
+   ```
+
+6. **IAccede a la aplicación en tu navegador:**
+   ```bash
+    http://localhost:3000
+   ```
+
+## Uso
+
+Una vez que la aplicación esté en funcionamiento, puedes registrarte como nuevo usuario o iniciar sesión si ya tienes una cuenta. Desde el panel principal, podrás agregar, editar y eliminar tus gastos e ingresos. También podrás visualizar tus datos financieros en gráficos para un análisis más fácil.
+
+### Notas:
+
+- Asegúrate de que las secciones estén bien organizadas con títulos y subtítulos.
+- Verifica que los comandos de terminal estén correctamente formateados con bloques de código.
+
+Ahora, este contenido debería ser más legible y fácil de seguir en Markdown. ¡Espero que esto te sea útil!
