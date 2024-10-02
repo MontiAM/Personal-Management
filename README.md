@@ -68,5 +68,3 @@ Una vez que la aplicación esté en funcionamiento, puedes registrarte como nuev
 
 - Asegúrate de que las secciones estén bien organizadas con títulos y subtítulos.
 - Verifica que los comandos de terminal estén correctamente formateados con bloques de código.
-
-Ahora, este contenido debería ser más legible y fácil de seguir en Markdown. ¡Espero que esto te sea útil!
