@@ -64,10 +64,13 @@ button.bg-blue-500 {
 }
 
 /* Statistics Card */
+:where(.css-dev-only-do-not-override-1gwfwyx).ant-card .ant-card-body{
+  padding: 12px!important;
+}
 .statistic-card {
   background-color: var(--secundary);
   width: 100%;
-  height: 200px;
+  height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;

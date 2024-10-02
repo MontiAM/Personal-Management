@@ -68,8 +68,7 @@ function StatisticsSection({ fetchDate }) {
   }, [fetchDate]);
 
   return (
-    <>
-      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4">
+    <div className="flex flex-col items-center sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4">
         <StatisticCard
           totalAmount={findByClasif(totals, "INGRESO")}
           percentageChange={getPercentage(
@@ -96,7 +95,6 @@ function StatisticsSection({ fetchDate }) {
           categoryName={"Ahorro"}
         />
       </div>
-    </>
   );
 }
 

@@ -52,8 +52,8 @@ const ChartSection = ({ fetchDate }) => {
         >
           <PieChart1 dataSource={categoryExpenses.currentPeriod}/>
         </ChartContainer>
-
-        {/* <ChartContainer title="Gastos por categoría">
+{/* 
+        <ChartContainer title="Gastos por categoría">
           <Chart2 dataSource={categoryExpenses} />
         </ChartContainer> */}
       </div>
