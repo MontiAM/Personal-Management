@@ -69,7 +69,7 @@ function LoginPage() {
           {...register("email", {
             required: {
               value: true,
-              message: "Email is require",
+              message: "Email is required",
             },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
@@ -77,7 +77,10 @@ function LoginPage() {
         {errors.email && (
           <span className="text-red-500 text-sm">{errors.email.message}</span>
         )}
-        <label htmlFor="password" className="text-slate-500 mb-2 block text-sm">
+        <label
+          htmlFor="password"
+          className="text-slate-500 mb-2 block text-sm"
+        >
           Password:
         </label>
         <input
@@ -86,7 +89,7 @@ function LoginPage() {
           {...register("password", {
             required: {
               value: true,
-              message: "Password is require",
+              message: "Password is required",
             },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
@@ -107,8 +110,15 @@ function LoginPage() {
         >
           Sign In with Google
         </button>
-      </form>
 
+        <button
+          type="button"
+          onClick={() => router.push("/auth/forgot_password")}
+          className="mt-4 text-blue-400 hover:underline"
+        >
+          Forgot Password?
+        </button>
+      </form>
       <ToastContainer />
     </div>
   );

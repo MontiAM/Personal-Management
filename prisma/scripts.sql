@@ -1,3 +1,17 @@
+CREATE TABLE "User" (
+    "id" SERIAL PRIMARY KEY,
+    "email" VARCHAR(255) UNIQUE NOT NULL,
+    "username" VARCHAR(255) UNIQUE NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMPTZ(6) DEFAULT now(),
+    "updatedAt" TIMESTAMPTZ(6) DEFAULT now()
+);
+
+ALTER TABLE "User"
+ADD COLUMN "resetToken" VARCHAR(255),
+ADD COLUMN "resetTokenExpiry" TIMESTAMP;
+
+
 DROP TABLE IF EXISTS public.daily_expenses;
 
 CREATE TABLE public.daily_expenses (
