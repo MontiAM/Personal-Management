@@ -1,7 +1,10 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import { Spin } from "antd";
 import "react-toastify/dist/ReactToastify.css";
 
 function RegisterPage() {
@@ -12,7 +15,7 @@ function RegisterPage() {
   } = useForm();
 
   const router = useRouter();
-
+  const { data: session, status } = useSession();
   const onSubmit = handleSubmit(async (data) => {
     if (data.password !== data.confirmPassword) {
       return toast("Password do not match");
@@ -38,6 +41,20 @@ function RegisterPage() {
     toast(errorData.message);
   });
 
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [status, router]);
+
+  if (status === "loading" || status === "authenticated") {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
+  
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
       <form action="" onSubmit={onSubmit} className="w-1/2 md:w-1/4">

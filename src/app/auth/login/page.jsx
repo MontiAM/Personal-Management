@@ -1,9 +1,11 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { Spin } from "antd";
 import "react-toastify/dist/ReactToastify.css";
 
 function LoginPage() {
@@ -12,7 +14,7 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -31,7 +33,7 @@ function LoginPage() {
   });
 
   const handleGoogleSignIn = async () => {
-    const res = await signIn("google", { redirect: false });    
+    const res = await signIn("google", { redirect: false });
     if (res?.error) {
       toast(res?.error);
     } else {
@@ -39,6 +41,20 @@ function LoginPage() {
       router.refresh();
     }
   };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [status, router]);
+
+  if (status === "loading" || status === "authenticated") {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">

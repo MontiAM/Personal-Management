@@ -10,8 +10,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 function Content({ children }) {
   const { status } = useSession();
-  console.log(status);
-
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center h-screen">
