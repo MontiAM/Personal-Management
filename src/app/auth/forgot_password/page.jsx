@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ForgotPasswordPage() {
+  
   const {
     register,
     handleSubmit,
@@ -14,7 +15,31 @@ function ForgotPasswordPage() {
   const router = useRouter();
 
   const handleForgotPassword = async (data) => {
+
     try {
+
+
+      const checkTokenResponse = await fetch("/api/auth/verify_exists_token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: data.email }),
+      });
+  
+      const checkTokenData = await checkTokenResponse.json();      
+  
+      if (checkTokenData.valid) {
+        const shouldRegenerate = confirm(
+          "Ya tienes un token de restablecimiento activo. ¿Deseas que se genere uno nuevo y enviarlo de nuevo?"
+        );
+  
+        if (!shouldRegenerate) {
+          toast("No se ha enviado un nuevo correo.");
+          return;
+        }
+      }
+
       const response = await fetch("/api/auth/forgot_password", {
         method: "POST",
         headers: {
@@ -23,15 +48,17 @@ function ForgotPasswordPage() {
         body: JSON.stringify({ email: data.email }),
       });
 
-    //   if (response.ok) {
-    //     toast("Password reset email sent");
-    //     router.push("/auth/login"); // Redirige a la página de login después de enviar el email
-    //   } else {
-    //     toast("Error sending email");
-    //   }
+      if (response.ok) {
+        toast("Password reset email sent");
+        router.push("/auth/login"); 
+      } else {
+        toast("Error sending email");
+      }
+      
     } catch (error) {
       toast("Error: " + error.message);
     }
+
   };
 
   return (
