@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 export async function POST(req) {
   const { email } = await req.json();  
 
-  // Verificar si el usuario existe
   const user = await db.User.findUnique({
     where: { email },
   });
@@ -15,12 +14,10 @@ export async function POST(req) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
 
-  // // Crear token de restablecimiento
   const resetToken = uuidv4();
   const resetTokenExpiry = new Date();
   resetTokenExpiry.setHours(resetTokenExpiry.getHours() + 1);
 
-  // // Actualizar el usuario con el token y la expiración
   await db.user.update({
     where: { email },
     data: {
@@ -29,7 +26,6 @@ export async function POST(req) {
     },
   });
   
-  // Enviar el correo electrónico de restablecimiento
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {

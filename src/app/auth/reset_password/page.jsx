@@ -7,7 +7,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ResetPasswordPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [tokenValid, setTokenValid] = useState(false);
@@ -15,18 +19,18 @@ function ResetPasswordPage() {
 
   const token = searchParams.get("token");
 
-  // Verificar si el token es válido
   useEffect(() => {
     const verifyToken = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/auth/verify-reset-token?token=${token}`);
+        const res = await fetch(`/api/auth/verify_reset_token?token=${token}`);
         const data = await res.json();
+
         if (data.valid) {
           setTokenValid(true);
         } else {
           toast("Invalid or expired token");
-          router.push("/login");
+          router.push("/auth/login");
         }
       } catch (error) {
         toast("Error verifying token");
@@ -41,10 +45,10 @@ function ResetPasswordPage() {
   }, [token, router]);
 
   const onSubmit = handleSubmit(async (data) => {
-    if (!token) return toast("Invalid request");
-
+    if (!token) return toast("Invalid request");    
+    
     try {
-      const res = await fetch("/api/auth/reset-password", {
+      const res = await fetch("/api/auth/reset_password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,9 +57,10 @@ function ResetPasswordPage() {
       });
 
       const result = await res.json();
-      if (result.success) {
+      
+      if (result.valid) {
         toast("Password successfully reset!");
-        router.push("/login");
+        router.push("/auth/login");
       } else {
         toast(result.message || "Error resetting password");
       }
@@ -73,13 +78,15 @@ function ResetPasswordPage() {
   }
 
   if (!tokenValid) {
-    return null; // Si el token no es válido, redirigimos al usuario.
+    return null;
   }
 
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
       <form onSubmit={onSubmit} className="w-1/2 md:w-1/4">
-        <h1 className="text-slate-200 font-bold text-4xl mb-4">Reset Password</h1>
+        <h1 className="text-slate-200 font-bold text-4xl mb-4">
+          Reset Password
+        </h1>
         <label htmlFor="password" className="text-slate-500 mb-2 block text-sm">
           New Password:
         </label>
@@ -99,7 +106,9 @@ function ResetPasswordPage() {
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
         />
         {errors.password && (
-          <span className="text-red-500 text-sm">{errors.password.message}</span>
+          <span className="text-red-500 text-sm">
+            {errors.password.message}
+          </span>
         )}
 
         <button className="w-full rounded-lg text-white bg-blue-500 p-3 mt-2">
