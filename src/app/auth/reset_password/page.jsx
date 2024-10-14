@@ -25,7 +25,7 @@ function ResetPasswordPage() {
       try {
         const res = await fetch(`/api/auth/verify_reset_token?token=${token}`);
         const data = await res.json();
-
+        
         if (data.valid) {
           setTokenValid(true);
         } else {
@@ -34,6 +34,7 @@ function ResetPasswordPage() {
         }
       } catch (error) {
         toast("Error verifying token");
+        router.push("/auth/login");
       } finally {
         setLoading(false);
       }
@@ -41,6 +42,8 @@ function ResetPasswordPage() {
 
     if (token) {
       verifyToken();
+    } else {
+      router.push("/auth/login");
     }
   }, [token, router]);
 
@@ -72,7 +75,7 @@ function ResetPasswordPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p>Loading...</p>
+        <p>Loading...</p> 
       </div>
     );
   }
