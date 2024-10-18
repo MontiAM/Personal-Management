@@ -18,6 +18,7 @@ model User {
   resetToken       String?        @db.VarChar(255)
   resetTokenExpiry DateTime?      @db.Timestamp(6)
   transactions     transactions[]
+  user_role        user_role[]
 }
 
 model transaction_type {
@@ -62,4 +63,19 @@ model transactions {
   user                    User                 @relation(fields: [trans_user_id], references: [id], onDelete: Cascade)
   transaction_category    transaction_category @relation(fields: [trans_cat_id], references: [trans_cat_id])
   payment_methods         payment_methods?     @relation("TransactionPaymentMethod", fields: [trans_payment_method_id], references: [pay_method_id])
+}
+
+model role {
+  rol_id     Int         @id @default(autoincrement())
+  rol_name   String      @unique @db.VarChar(50)
+  rol_status String?     @default("Activo") @db.VarChar(20)
+  user_role  user_role[]
+}
+
+model user_role {
+  uro_id      Int  @id @default(autoincrement())
+  uro_user_id Int
+  uro_rol_id  Int
+  user        User @relation(fields: [uro_user_id], references: [id], onDelete: Cascade)
+  role        role @relation(fields: [uro_rol_id], references: [rol_id], onDelete: Cascade)
 }

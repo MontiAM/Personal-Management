@@ -11,8 +11,19 @@ ALTER TABLE "User"
 ADD COLUMN "resetToken" VARCHAR(255),
 ADD COLUMN "resetTokenExpiry" TIMESTAMP;
 
+CREATE TABLE role (
+    rol_id SERIAL PRIMARY KEY,
+    rol_name VARCHAR(50) UNIQUE NOT NULL,
+    rol_status VARCHAR(20) DEFAULT 'Activo',
+);
 
-DROP TABLE IF EXISTS public.daily_expenses;
+CREATE TABLE user_role (
+    uro_id SERIAL PRIMARY KEY,
+    uro_user_id INT NOT NULL,
+    uro_rol_id INT NOT NULL,
+    FOREIGN KEY (uro_user_id) REFERENCES "User" (id) ON DELETE CASCADE,
+    FOREIGN KEY (uro_rol_id) REFERENCES role (rol_id) ON DELETE CASCADE
+);
 
 CREATE TABLE public.daily_expenses (
     expense_id SERIAL PRIMARY KEY,                    
