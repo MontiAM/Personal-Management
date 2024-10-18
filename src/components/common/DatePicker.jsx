@@ -3,24 +3,25 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
-const monthFormat = "YYYY/MM";
+const monthFormat = "YYYY-MM-DD";
+const { RangePicker } = DatePicker;
 
 const DatePickerComponent = ({ onDateChange }) => {
   const handleChange = (date) => {
     onDateChange(date);
   };
 
+  const defaultDates = [dayjs().startOf("month"), dayjs().endOf("month")];
+
   return (
     <>
       <Space direction="vertical" size={12}>
         <p className="text-slate-500 block text-sm">Periodo:</p>
-        <DatePicker
-          defaultValue={dayjs()}
+        <RangePicker
+          defaultValue={defaultDates}
           format={monthFormat}
-          picker="month"
           onChange={handleChange}
         />
-        <div></div>
       </Space>
     </>
   );

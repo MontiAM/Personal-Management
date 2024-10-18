@@ -9,8 +9,14 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 const Statistics = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [filterDate, setFilterDate] = useState(dayjs());
+  const [selectedDate, setSelectedDate] = useState([
+    dayjs().startOf("month"),
+    dayjs().endOf("month"),
+  ]);
+  const [filterDate, setFilterDate] = useState([
+    dayjs().startOf("month"),
+    dayjs().endOf("month"),
+  ]);
 
   const handleFilter = () => {
     setFilterDate(selectedDate);
@@ -40,9 +46,9 @@ const Statistics = () => {
       </div>
 
       {/* <div className="bg-gray-950 lg:h-[calc(100vh-11rem)] shadow-lg shadow-gray-900 rounded-lg p-2"> */}
-          <div className="pt-4 w-full">
+          {/* <div className="pt-4 w-full">
             <ChartSection fetchDate={filterDate}/>
-          </div>
+          </div> */}
         {/* </div> */}
 
       {/* <div className="w-full lg:w-1/3 lg:pl-4">

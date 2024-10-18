@@ -26,8 +26,8 @@ function StatisticsSection({ fetchDate }) {
 
   useEffect(() => {
     if (fetchDate) {
-      const startOfMonth = fetchDate.startOf("month").format("YYYY-MM-DD");
-      const endOfMonth = fetchDate.endOf("month").format("YYYY-MM-DD");
+      const startOfMonth = fetchDate[0].format("YYYY-MM-DD");
+      const endOfMonth = fetchDate[1].format("YYYY-MM-DD");
 
       const getTotal = async (startDate, endDate) => {
         try {

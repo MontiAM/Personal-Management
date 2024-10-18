@@ -21,7 +21,7 @@ const SelectPicker = ({onFilterChange}) => {
       <Space direction="vertical" size={12}>
         <p className="text-slate-500 block text-sm">Filtro:</p>
         <Select
-          style={{ minWidth: "120px" }}
+          style={{ minWidth: "auto" }}
           showSearch
           defaultValue={selectOptions[0].label}
           placeholder={selectOptions[0].label}
