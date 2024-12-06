@@ -11,11 +11,8 @@ dayjs.extend(customParseFormat);
 
 function TableSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDates, setSelectedDates] = useState([
-    dayjs().startOf("month"),
-    dayjs().endOf("month"),
-  ]);
-  const [selectFilter, setSelectFilter] = useState("expenses");
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectFilter, setSelectFilter] = useState("expenses")
   const [dataSource, setDataSource] = useState([]);
 
   const showModal = () => {
@@ -27,21 +24,21 @@ function TableSection() {
   };
 
   const handleFilter = () => {
-    refreshData();
-  };
+    refreshData()
+  }
 
   const refreshData = async () => {
-    console.log("Refreshing...");
-
-    if (selectedDates) {
-      const startOfRange = selectedDates[0].format("YYYY-MM-DD");
-      const endOfRange = selectedDates[1].format("YYYY-MM-DD");
-
+    console.log("Refreshing...");    
+    
+    if (selectedDate) {
+      const startOfMonth = selectedDate.startOf("month").format("YYYY-MM-DD");
+      const endOfMonth = selectedDate.endOf("month").format("YYYY-MM-DD");
+      
       try {
         const res = await fetch(
-          `/api/transactions?fecha_desde=${startOfRange}&fecha_hasta=${endOfRange}`
+          `/api/transactions?fecha_desde=${startOfMonth}&fecha_hasta=${endOfMonth}`
         );
-        const data = await res.json();
+        const data = await res.json();        
         setDataSource(data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -52,22 +49,25 @@ function TableSection() {
 
   return (
     <>
-      <div className="mt-2 grid grid-cols-1 gap-4 h-full">
-        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 space-y-4 md:space-y-0">
-          <div className="flex flex-col md:flex-row md:items-center gap-4 w-full md:w-auto">
-            <DatePickerComponent onDateChange={setSelectedDates} />
-            <SelectPicker onFilterChange={setSelectFilter} />
-            <div className="flex w-1/3 md:w-auto">
-              <button
-                onClick={handleFilter}
-                className="w-full md:w-auto text-white h-12 rounded-lg bg-blue-500 p-3"
-              >
-                Filter
-              </button>
+      <div className="mt-2 grid grid-cols-1 gap-2 h-full">
+        <div className="flex flex-col md:flex-row lg:flex-row justify-between md:items-center">
+          <div className="flex gap-2 justify-center items-center ">
+            <div className="flex gap-2 items-start">
+              <DatePickerComponent onDateChange={setSelectedDate} />
+              <SelectPicker onFilterChange={setSelectFilter}/>
             </div>
+            <button onClick={handleFilter} className="text-white h-12 rounded-lg bg-blue-500 p-3 col-span-full">
+              Filter
+            </button>
           </div>
+          <button
+            onClick={showModal}
+            className="md:mx-0 lg:mx-0 mx-2 text-white h-12 rounded-lg bg-blue-500 p-3 col-span-full"
+          >
+            Add
+          </button>
         </div>
-        <div className="lg:relative h-[calc(100vh-12em)] overflow-auto">
+        <div className="lg:relative h-max-[calc(100vh-12em)] overflow-auto">
           <TableExpenses
             dataSource={dataSource}
             setDataSource={setDataSource}
@@ -76,12 +76,6 @@ function TableSection() {
           />
         </div>
       </div>
-          <button
-            onClick={showModal}
-            className="fixed bottom-6 right-6 bg-blue-500 text-white rounded-full w-16 h-16 shadow-lg hover:bg-blue-600 flex items-center justify-center z-10"
-          >
-            <p>Add</p>
-          </button>
 
       <Modal
         closeIcon={<CloseOutlined className="text-white" />}
