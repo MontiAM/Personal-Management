@@ -53,36 +53,20 @@ function TableSection() {
   return (
     <>
       <div className="mt-2 grid grid-cols-1 gap-4 h-full">
-        {/* Filters Section */}
         <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 space-y-4 md:space-y-0">
-          {/* Filters on left side */}
           <div className="flex flex-col md:flex-row md:items-center gap-4 w-full md:w-auto">
             <DatePickerComponent onDateChange={setSelectedDates} />
             <SelectPicker onFilterChange={setSelectFilter} />
-          </div>
-
-          {/* Filter Button */}
-          <div className="flex w-full md:w-auto">
-            <button
-              onClick={handleFilter}
-              className="w-full md:w-auto text-white h-12 rounded-lg bg-blue-500 p-3"
-            >
-              Filter
-            </button>
-          </div>
-
-          {/* Add Button on right side */}
-          <div className="flex w-full md:w-auto">
-            <button
-              onClick={showModal}
-              className="w-full md:w-auto text-white h-12 rounded-lg bg-blue-500 p-3"
-            >
-              Add
-            </button>
+            <div className="flex w-1/3 md:w-auto">
+              <button
+                onClick={handleFilter}
+                className="w-full md:w-auto text-white h-12 rounded-lg bg-blue-500 p-3"
+              >
+                Filter
+              </button>
+            </div>
           </div>
         </div>
-
-        {/* Table Section */}
         <div className="lg:relative h-[calc(100vh-12em)] overflow-auto">
           <TableExpenses
             dataSource={dataSource}
@@ -92,8 +76,13 @@ function TableSection() {
           />
         </div>
       </div>
+          <button
+            onClick={showModal}
+            className="fixed bottom-6 right-6 bg-blue-500 text-white rounded-full w-16 h-16 shadow-lg hover:bg-blue-600 flex items-center justify-center z-10"
+          >
+            <p>Add</p>
+          </button>
 
-      {/* Modal for Add Transactions */}
       <Modal
         closeIcon={<CloseOutlined className="text-white" />}
         open={isModalOpen}

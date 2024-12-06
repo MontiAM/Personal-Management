@@ -18,7 +18,7 @@ const SelectPicker = ({onFilterChange}) => {
 
   return (
     <>
-      <Space direction="vertical" size={12}>
+      <Space className="px-8 md:p-0" direction="vertical" size={12}>
         <p className="text-slate-500 block text-sm">Filtro:</p>
         <Select
           style={{ minWidth: "auto" }}
@@ -31,6 +31,7 @@ const SelectPicker = ({onFilterChange}) => {
               .toLowerCase()
               .localeCompare((optionB?.label ?? "").toLowerCase())
           }
+          className="w-full md:w-auto"
           options={selectOptions}
           onChange={handleChange}
         />
