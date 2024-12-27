@@ -15,13 +15,13 @@ const DatePickerComponent = ({ onDateChange }) => {
 
   return (
     <>
-      <Space className="px-8 md:p-0" direction="vertical" size={12}>
-        <p className="text-slate-500 block text-sm">Periodo:</p>
+      <Space direction="vertical" size={12}>
+        <p className="text-white block text-sm">Periodo:</p>
         <RangePicker
           defaultValue={defaultDates}
           format={monthFormat}
           onChange={handleChange}
-          className=" w-full md:w-auto"
+          className=" w-full"
         />
       </Space>
     </>

@@ -68,8 +68,8 @@ function NavBar() {
 
       <ul
         className={`${
-          dropdown ? "max-h-60" : "max-h-0"
-        } md:flex flex-col md:flex-row gap-y-2 md:gap-y-0 md:gap-x-4 mt-2 md:mt-0 overflow-hidden transition-[max-height] duration-300 ease-in-out`}
+          dropdown ? "max-h-96" : "max-h-0"
+        } md:flex flex-col md:flex-row gap-y-2 md:gap-y-0 md:gap-x-4 mt-2 md:mt-0 overflow-hidden transition-[max-height]  duration-300 ease-in-out`}
       >
         {navItems
           .filter((item) => (session?.user ? item.protected : !item.protected))

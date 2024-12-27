@@ -4,7 +4,8 @@ import SelectPicker from "./SelectPicker";
 import ModalCharge from "../../Transactions/ModalCharge";
 import { CloseOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import SideDrawer from "../../../common/SideDrawer";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
@@ -17,6 +18,7 @@ function TableSection() {
   ]);
   const [selectFilter, setSelectFilter] = useState("expenses");
   const [dataSource, setDataSource] = useState([]);
+  const [showFilters, setShowFilters] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -50,19 +52,31 @@ function TableSection() {
     }
   };
 
+  useEffect( ()=>{
+    refreshData();
+  }, [])
+
   return (
     <>
-      <div className="mt-2 grid grid-cols-1 gap-4 h-full">
-        <div className="flex flex-col md:flex-row md:items-center gap-4 w-full md:w-auto">
+      <h1 className="mb-2 text-lg sm:text-xl font-bold text-white">
+        Daily Expenses
+      </h1>
+      <div className="relative mt-2 grid grid-cols-1 gap-4 h-full">
+        <SideDrawer
+          isVisible={showFilters}
+          onClose={() => setShowFilters(false)}
+          onCLick={() => setShowFilters(!showFilters)}
+          title="Filtros"
+        >
           <DatePickerComponent onDateChange={setSelectedDates} />
           <SelectPicker onFilterChange={setSelectFilter} />
           <button
             onClick={handleFilter}
-            className="mx-8 md:mx-0 md:w-auto text-white h-6 md:h-12 rounded-lg bg-blue-500 md:p-3"
+            className="text-white h-12 rounded-lg bg-blue-500 hover:bg-blue-600 p-3"
           >
-            Filter
+            Filtrar
           </button>
-        </div>
+        </SideDrawer>
         <div className="lg:relative h-[calc(100vh-12em)] overflow-auto">
           <TableExpenses
             dataSource={dataSource}
@@ -72,6 +86,7 @@ function TableSection() {
           />
         </div>
       </div>
+
       <button
         onClick={showModal}
         className="fixed bottom-6 right-6 bg-blue-500 text-white rounded-full w-16 h-16 shadow-lg hover:bg-blue-600 flex items-center justify-center z-10"
