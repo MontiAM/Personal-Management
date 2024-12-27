@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { Layout } from "antd";
 import DashboardSider from "./Sider";
@@ -30,7 +31,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout className="relative">  
+    <Layout>  
       <DashboardSider
         collapsed={collapsed}
         setCollapsed={setCollapsed}
@@ -38,7 +39,7 @@ const Dashboard = () => {
       />
       <Layout
       
-        className={`site-layout transition-all duration-300 ml-${
+        className={`pt-10 site-layout transition-all duration-300 ml-${
           collapsed ? "20" : "80"
         } h-full`}
       >

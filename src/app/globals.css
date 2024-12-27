@@ -25,6 +25,9 @@ body {
 .ant-menu-item {
   @apply bg-gray-950;
 }
+.ant-menu-item-selected {
+  background-color: var(--btn-active) !important;
+}
 
 /* Dashboard  */
 .ant-layout {
@@ -53,19 +56,14 @@ body {
   color: #e2e8f0 !important;
 }
 
-/* Sidebar */
-.ant-menu-item-selected {
-  background-color: var(--btn-active) !important;
-}
-
 /* Button */
 button.bg-blue-500 {
   background-color: var(--btn-active);
 }
 
 /* Statistics Card */
-:where(.css-dev-only-do-not-override-1gwfwyx).ant-card .ant-card-body{
-  padding: 12px!important;
+:where(.css-dev-only-do-not-override-1gwfwyx).ant-card .ant-card-body {
+  padding: 12px !important;
 }
 .statistic-card {
   background-color: var(--secundary);
@@ -83,7 +81,7 @@ button.bg-blue-500 {
   .ant-progress.ant-progress-circle .ant-progress-text {
     color: var(--text-color);
   }
-  
+
   .ant-typography {
     color: var(--text-color);
   }
