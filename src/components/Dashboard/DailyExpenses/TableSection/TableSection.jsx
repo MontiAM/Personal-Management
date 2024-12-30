@@ -18,7 +18,6 @@ function TableSection() {
   ]);
   const [selectFilter, setSelectFilter] = useState("expenses");
   const [dataSource, setDataSource] = useState([]);
-  const [showFilters, setShowFilters] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -62,10 +61,7 @@ function TableSection() {
         Daily Expenses
       </h1>
       <div className="relative mt-2 grid grid-cols-1 gap-4 h-full">
-        <SideDrawer
-          isVisible={showFilters}
-          onClose={() => setShowFilters(false)}
-          onCLick={() => setShowFilters(!showFilters)}
+        <SideDrawer         
           title="Filtros"
         >
           <DatePickerComponent onDateChange={setSelectedDates} />

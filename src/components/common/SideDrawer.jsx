@@ -1,11 +1,17 @@
+import { useState } from "react";
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 
-function SideDrawer({ isVisible, onClose, title, children, onCLick }) {
+function SideDrawer({ title, children }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleToggle = () => setIsVisible(!isVisible);
+  const handleClose = () => setIsVisible(false);
+
   return (
     <>
       <button
         className="fixed top-1/3 right-0 z-20 bg-blue-500 text-white p-2 rounded-l-lg shadow-lg hover:bg-blue-600"
-        onClick={onCLick}
+        onClick={handleToggle}
       >
         <MenuOutlined />
       </button>
@@ -21,7 +27,7 @@ function SideDrawer({ isVisible, onClose, title, children, onCLick }) {
             </h2>
             <button
               className="text-gray-500 hover:text-red-500"
-              onClick={onClose}
+              onClick={handleClose}
             >
               <CloseOutlined />
             </button>
