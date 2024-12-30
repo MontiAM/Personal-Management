@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Table, Modal } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { transformParameterColumns } from "@/helpers/helpers";
+import { transformParameterColumns } from "@/util/helpers";
 import ModalChargeParameter from "./ModalChargeParameter";
 
 const   TableParameter = ({ dataSource, setDataSource, type, refreshData }) => {

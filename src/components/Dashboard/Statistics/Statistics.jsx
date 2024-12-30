@@ -1,8 +1,8 @@
 import SideDrawer from "@/components/common/SideDrawer";
 import DatePickerComponent from "@/components/common/DatePicker";
-import StatisticsSection from "./StatisticsSection/StatisticsSection";
-import ChartSection from "./ChartSection/ChartSection";
-import TableBalanceSection from "./TableBalance/TableBalanceSection";
+import StatisticsSection from "./statistics-section/StatisticsSection";
+import ChartSection from "./chart-section/ChartSection";
+import TableBalanceSection from "./table-balance/TableBalanceSection";
 
 import { useState } from "react";
 import dayjs from "dayjs";

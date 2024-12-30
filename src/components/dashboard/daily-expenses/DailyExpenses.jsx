@@ -1,4 +1,4 @@
-import TableSection from "./TableSection/TableSection";
+import TableSection from "./table-section/TableSection";
 import { mockData } from "@/mockData/mockData";
 
 const DailyExpenses = () => {

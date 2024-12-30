@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 // import { authOptions  } from "../auth/[...nextauth]/route";
 // import { getServerSession } from "next-auth";
 import db from "@/libs/db";
-import getPreviousMonthRange from "@/helpers/getPreviousMonthRange";
+import getPreviousMonthRange from "@/util/getPreviousMonthRange";
 
 export async function GET(request) {
   // const session = await getServerSession(authOptions);

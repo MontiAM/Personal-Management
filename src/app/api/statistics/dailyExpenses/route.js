@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import db from "@/libs/db";
-import getPreviousMonthRange from "@/helpers/getPreviousMonthRange";
-import formatDate from "@/helpers/formatDate";
+import getPreviousMonthRange from "@/util/getPreviousMonthRange";
+import formatDate from "@/util/formatDate";
 
 export async function GET(request) {
   // http://localhost:3000/api/statistics/dailyExpenses?fecha_desde=2024-08-01&fecha_hasta=2024-08-31
