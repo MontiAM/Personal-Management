@@ -19,6 +19,9 @@ function ModalCharge({ onClose, refreshData, editValue }) {
 
   const onSubmit = handleSubmit(async (data) => {
 
+    console.log(data);
+    
+
     const method = editValue ? "PUT" : "POST";
     const url = editValue
       ? `/api/transactions/${editValue.trans_id}`
@@ -77,6 +80,7 @@ function ModalCharge({ onClose, refreshData, editValue }) {
     getTransactionType();
     getPaymentMethod();
   }, []);
+
   useEffect(() => {
     if (editValue && transactionsCategories.length > 0) {
       setValue("trans_cat_trans_type_id", editValue.l_trans_type_id);
