@@ -12,7 +12,7 @@ dayjs.extend(customParseFormat);
 
 function TableSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedDate, setSelectedDates] = useState(dayjs());
   const [selectFilter, setSelectFilter] = useState("expenses")
   const [dataSource, setDataSource] = useState([]);
 
