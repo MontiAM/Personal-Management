@@ -1,10 +1,11 @@
 import TableExpenses from "./TableExpenses";
 import DatePickerComponent from "../../../common/DatePicker";
 import SelectPicker from "./SelectPicker";
-import ModalCharge from "../../Transactions/ModalCharge";
+import ModalCharge from "../../transactions/ModalCharge";
 import { CloseOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import SideDrawer from "../../../common/SideDrawer";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
@@ -47,27 +48,29 @@ function TableSection() {
     }
   };
 
+  useEffect( ()=>{
+    refreshData();
+  }, [])
+
   return (
     <>
-      <div className="mt-2 grid grid-cols-1 gap-2 h-full">
-        <div className="flex flex-col md:flex-row lg:flex-row justify-between md:items-center">
-          <div className="flex gap-2 justify-center items-center ">
-            <div className="flex gap-2 items-start">
-              <DatePickerComponent onDateChange={setSelectedDate} />
-              <SelectPicker onFilterChange={setSelectFilter}/>
-            </div>
-            <button onClick={handleFilter} className="text-white h-12 rounded-lg bg-blue-500 p-3 col-span-full">
-              Filter
-            </button>
-          </div>
+      <h1 className="mb-2 text-lg sm:text-xl font-bold text-white">
+        Daily Expenses
+      </h1>
+      <div className="relative mt-2 grid grid-cols-1 gap-4 h-full">
+        <SideDrawer         
+          title="Filtros"
+        >
+          <DatePickerComponent onDateChange={setSelectedDates} />
+          <SelectPicker onFilterChange={setSelectFilter} />
           <button
-            onClick={showModal}
-            className="md:mx-0 lg:mx-0 mx-2 text-white h-12 rounded-lg bg-blue-500 p-3 col-span-full"
+            onClick={handleFilter}
+            className="text-white h-12 rounded-lg bg-blue-500 hover:bg-blue-600 p-3"
           >
-            Add
+            Filtrar
           </button>
-        </div>
-        <div className="lg:relative h-max-[calc(100vh-12em)] overflow-auto">
+        </SideDrawer>
+        <div className="lg:relative h-[calc(100vh-12em)] overflow-auto">
           <TableExpenses
             dataSource={dataSource}
             setDataSource={setDataSource}
@@ -76,6 +79,13 @@ function TableSection() {
           />
         </div>
       </div>
+
+      <button
+        onClick={showModal}
+        className="fixed bottom-6 right-6 bg-blue-500 text-white rounded-full w-16 h-16 shadow-lg hover:bg-blue-600 flex items-center justify-center z-10"
+      >
+        <p>Add</p>
+      </button>
 
       <Modal
         closeIcon={<CloseOutlined className="text-white" />}

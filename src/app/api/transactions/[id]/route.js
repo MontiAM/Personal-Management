@@ -123,7 +123,7 @@ export async function PUT(request) {
       return NextResponse.json({ message: "User not found" }, { status: 400 });
     }
 
-    if (data.trans_amount <= 0) {
+    if (data.trans_amount == 0) {
       return NextResponse.json(
         { message: "Transaction amount must by distinc of cero" },
         { status: 400 }

@@ -57,7 +57,7 @@ export async function POST(request) {
       return NextResponse.json({ message: "User not found" }, { status: 400 });
     }
 
-    if (typeof data.trans_amount !== "number" || data.trans_amount <= 0) {
+    if (typeof data.trans_amount !== "number" || data.trans_amount == 0) {
       return NextResponse.json(
         { message: "Transaction amount must by distinc of cero" },
         { status: 400 }

@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import { transformBalanceColumns } from "@/helpers/helpers";
+import { transformBalanceColumns } from "@/util/helpers";
 
 const TableBalance = ({ dataSource }) => {
 

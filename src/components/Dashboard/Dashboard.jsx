@@ -1,11 +1,12 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { Layout } from "antd";
 import DashboardSider from "./Sider";
-import DailyExpenses from "./DailyExpenses/DailyExpenses";
-import Statistics from "./Statistics/Statistics"
-import Configuration from "./Configuration/Configuration";
-import Parameters from "./Parameters/Parameters" 
+import DailyExpenses from "./daily-expenses/DailyExpenses";
+import Statistics from "./statistics/Statistics"
+import Configuration from "./configuration/Configuration";
+import Parameters from "./parameters/Parameters" 
 
 const { Content } = Layout;
 
@@ -30,7 +31,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout className="relative">  
+    <Layout>  
       <DashboardSider
         collapsed={collapsed}
         setCollapsed={setCollapsed}
@@ -38,7 +39,7 @@ const Dashboard = () => {
       />
       <Layout
       
-        className={`site-layout transition-all duration-300 ml-${
+        className={`pt-10 site-layout transition-all duration-300 ml-${
           collapsed ? "20" : "80"
         } h-full`}
       >

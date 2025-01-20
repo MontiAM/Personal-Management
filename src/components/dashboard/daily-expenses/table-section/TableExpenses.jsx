@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Table, Modal } from "antd";
-import { transformTransactionsColumns } from "@/helpers/helpers";
+import { transformTransactionsColumns } from "@/util/helpers";
 import { CloseOutlined } from "@ant-design/icons";
-import ModalCharge from "../../Transactions/ModalCharge";
+import ModalCharge from "../../transactions/ModalCharge";
 
 const TableExpenses = ({
   dataSource,

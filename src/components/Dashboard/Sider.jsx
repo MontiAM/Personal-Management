@@ -3,7 +3,7 @@ import {
   ControlOutlined,
   DesktopOutlined,
   FileOutlined,
-  AreaChartOutlined
+  AreaChartOutlined,
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -11,8 +11,12 @@ const { Sider } = Layout;
 const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
   return (
     <Sider
-      className="fixed top-0 left-0 "
-      style={{ minHeight: "calc(100vh - 3.25rem)" }}
+      style={{
+        height: "100vh",
+        position: "sticky", 
+        top: 0, 
+        overflow: "hidden", 
+      }}
       collapsible
       collapsed={collapsed}
       onCollapse={setCollapsed}
@@ -21,7 +25,7 @@ const DashboardSider = ({ collapsed, setCollapsed, setViewKey }) => {
         theme="dark"
         defaultSelectedKeys={["1"]}
         mode="inline"
-        className="cursor-pointer relative"
+        className="cursor-pointer pt-14"
         items={[
           {
             key: "1",

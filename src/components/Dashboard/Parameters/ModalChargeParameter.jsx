@@ -216,31 +216,6 @@ function ModalChargeParameter({ onClose, refreshData, editValue, filterType }) {
                 </span>
               )}
             </div>
-
-            {/* <div className="flex flex-col">
-              <label
-                htmlFor="trans_cat_description"
-                className="text-slate-500 mb-2 block text-sm"
-              >
-                Transaction category description:
-              </label>
-              <input
-                type="text"
-                placeholder="Transaction category description"
-                {...register("trans_cat_description", {
-                  required: {
-                    value: false,
-                    message: "Transaction category is required",
-                  },
-                })}
-                className="p-2 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
-              />
-              {errors.trans_cat_description && (
-                <span className="text-red-500 text-sm">
-                  {errors.trans_cat_description.message}
-                </span>
-              )}
-            </div> */}
           </>
         ) : filterType === "transaction_type" ? (
           <>

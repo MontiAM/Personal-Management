@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import StatisticCard from "./StatisticsCard";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import getPreviousMonthRange from "@/helpers/getPreviousMonthRange";
+import getPreviousMonthRange from "@/util/getPreviousMonthRange";
 
 dayjs.extend(customParseFormat);
 
