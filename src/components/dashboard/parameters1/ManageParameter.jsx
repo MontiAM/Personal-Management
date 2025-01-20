@@ -8,6 +8,7 @@ export default function ManageParameter({ title, type }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataSource, setDataSource] = useState([]);
 
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -16,20 +17,23 @@ export default function ManageParameter({ title, type }) {
     setIsModalOpen(false);
   };
 
-  const getData = async () => {
+  const getData = async() => {
     const res = await fetch(`/api/${type}`);
-    const data = await res.json();
-    setDataSource(data.data);
-  };
+    const data = await res.json()
+    setDataSource(data.data)
+  }
 
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
+
 
   const refreshData = async () => {
     console.log("Refreshing");
     try {
-      const res = await fetch(`/api/${type}`);
+      const res = await fetch(
+        `/api/${type}`
+      );
       const data = await res.json();
       setDataSource(data.data);
     } catch (error) {
@@ -38,25 +42,22 @@ export default function ManageParameter({ title, type }) {
     }
   };
 
+
+
   return (
     <>
       <div className="w-full lg:h-500 ">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-around mb-4">
           <h1 className="text-lg sm:text-xl font-bold text-white">{title}</h1>
           <button
             onClick={showModal}
-            className="text-white w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center text-lg font-bold"
+            className="text-white h-12 rounded-lg bg-blue-500 p-3"
           >
-            +
+            Add
           </button>
         </div>
         <div>
-          <TableParameter
-            refreshData={refreshData}
-            dataSource={dataSource}
-            setDataSource={setDataSource}
-            type={type}
-          />
+          <TableParameter refreshData={refreshData} dataSource={dataSource} setDataSource={setDataSource} type={type}/>
         </div>
       </div>
       <Modal
